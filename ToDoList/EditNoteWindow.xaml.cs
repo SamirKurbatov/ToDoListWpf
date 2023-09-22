@@ -19,7 +19,7 @@ namespace ToDoList
     /// </summary>
     public partial class EditNoteWindow : Window
     {
-        public MainWindow MainWindow { get;}
+        public MainWindow MainWindow { get; }
 
         public EditNoteWindow(MainWindow main)
         {
@@ -32,10 +32,10 @@ namespace ToDoList
             this.Close();
         }
 
-        private void AgreeButton_Click(object sender, RoutedEventArgs e)
+        private void EditCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            var editCommand = new EditCommand();
-            editCommand.Execute(this);
+            var command = new EditCommand();
+            command.Execute(this);
         }
     }
 }

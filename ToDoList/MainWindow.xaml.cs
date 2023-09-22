@@ -1,20 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using ToDoList.Commands;
 
 namespace ToDoList
 {
@@ -32,49 +19,23 @@ namespace ToDoList
             noteListView.ItemsSource = Notes;
         }
 
-        private void RemoveButton_Click(object sender, RoutedEventArgs e)
-        {
-            var command = new RemoveCommand();
-            command.Execute(this);
-          
-        }
-
-        private void OpenWindow(object sender, RoutedEventArgs e)
-        {
-            var command = ApplicationCommands.Open;
-            command.Execute(new EditNoteWindow(this), this);
-        }
-
         private void AddCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var command = new AddCommand();
             command.Execute(this);
         }
-    }
 
-    public class Note
-    {
-        private static int nextId = 1;
-
-        public int Id { get; set; }
-
-        public string Title { get; set; }
-
-        public DateTime Date { get; set; }
-
-        public Note(string title)
+        private void OpenCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            Id = nextId++;
-            Title = title;
-            Date = DateTime.Now;
+            var command = new OpenCommand();
+            var editPage = new EditNoteWindow(this);
+            command.Execute(editPage);
         }
-    }
 
-    record Person(string Name, string Job)
-    {
-        public override string ToString()
+        private void RemoveCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            return $"{Name}({Job})";
+            var command = new RemoveCommand();
+            command.Execute(this);
         }
     }
 }
