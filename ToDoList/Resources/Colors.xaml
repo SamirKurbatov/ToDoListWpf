@@ -2,8 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:ToDoList" >
 
-    <SolidColorBrush x:Key="addButtonColor" Color="LimeGreen"/>
-    <SolidColorBrush x:Key="removeButtonColor" Color="OrangeRed"/>
+    <SolidColorBrush x:Key="greenButtonColor" Color="#00af00"/>
+    <SolidColorBrush x:Key="redButtonColor" Color="#a00000"/>
     <LinearGradientBrush x:Key="gradientButtonColor" StartPoint="0.5,1" EndPoint="0.5,0">
         <GradientStop Color="LightBlue" Offset="0"/>
         <GradientStop Color="White" Offset="1"/>

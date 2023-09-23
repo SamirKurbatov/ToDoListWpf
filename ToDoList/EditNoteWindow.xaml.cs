@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CommunityToolkit.Mvvm.Input;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using ToDoList.BL;
 
 namespace ToDoList
 {
@@ -19,23 +10,23 @@ namespace ToDoList
     /// </summary>
     public partial class EditNoteWindow : Window
     {
-        public MainWindow MainWindow { get; }
-
-        public EditNoteWindow(MainWindow main)
+        public Note EditNode { get; set; }
+        public EditNoteWindow()
         {
             InitializeComponent();
-            MainWindow = main;
+            EditNode = new();
+            DataContext = this;
         }
+
+        public RelayCommand SaveCommand => new RelayCommand(() =>
+        {
+            EditNode.Title = editText.Text;
+            DialogResult = true;
+        });
 
         private void CancelWindowBtn_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
-        }
-
-        private void EditCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            var command = new EditCommand();
-            command.Execute(this);
         }
     }
 }
