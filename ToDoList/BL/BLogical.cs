@@ -7,12 +7,22 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
+using ToDoList.Domain;
 
 namespace ToDoList.BL
 {
     public class BLogical
     {
         public ObservableCollection<Note> Notes { set; get; } = new ObservableCollection<Note>();
+       
+        public ObservableCollection<PriorityItem> PriorityOptions { get; set; } = new()
+        {
+            new PriorityItem(PriorityType.Low),
+            new PriorityItem(PriorityType.Medium),
+            new PriorityItem(PriorityType.High)
+        };
+
+        public PriorityItem SelectedPriority { get; set; } 
 
         public Note SelectedNote { set; get; }
 
@@ -25,12 +35,14 @@ namespace ToDoList.BL
             {
                 return addCommand ?? (addCommand = new RelayCommand(() =>
                 {
-                    string title = MainNote.Title;
+                    var title = MainNote.Title;
+                    var notePriority = MainNote.Priority;
                     if (string.IsNullOrWhiteSpace(title))
                         MessageBox.Show("Поле не может быть пустым!");
                     else
                     {
-                        Notes.Add(new Note(title));
+                        notePriority = SelectedPriority;
+                        Notes.Add(new Note(title, notePriority));
                         MainNote.Title = "";
                     }
                 }));

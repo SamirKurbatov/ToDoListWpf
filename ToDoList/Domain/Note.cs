@@ -1,17 +1,18 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using ToDoList.Domain;
 
 namespace ToDoList
 {
     public class Note : INotifyPropertyChanged
     {
-        private static int nextId = 1;
+        #region Properties
 
+        private static int nextId = 1;
         public int Id { get; set; }
 
         private string title;
-
         public string Title
         {
             get { return title; }
@@ -24,16 +25,38 @@ namespace ToDoList
 
         public DateTime Date { get; set; }
 
-        public Note(string title)
+        private PriorityItem priority;
+        public PriorityItem Priority
+        {
+            get => priority;
+            set
+            {
+                priority = value;
+                OnPropertyChanged();
+            }
+        }
+        #endregion
+
+        #region Constructors
+        public Note(string title, PriorityItem priority)
         {
             Id = nextId++;
             Title = title;
             Date = DateTime.Now;
+            Priority = priority;
+        }
+
+        public Note(string title) : this(title, null)
+        {
+
         }
 
         public Note()
         {
+
         }
+
+        #endregion
 
         public event PropertyChangedEventHandler? PropertyChanged;
 

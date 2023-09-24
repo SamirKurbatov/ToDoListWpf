@@ -8,6 +8,8 @@ namespace ToDoList.BL
 
         public RelayCommand RemoveCommand { get; set; }
 
+        public RelayCommand SaveCommand { get; set; }
+
         public RelayCommand OpenCommand { get; set; }
     }
 

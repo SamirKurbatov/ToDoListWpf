@@ -16,11 +16,16 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <StackPanel Grid.Column="0" VerticalAlignment="Top" Orientation="Horizontal">
-                <TextBox x:Name="noteTextBox" Height="30" Width="200" Text="{Binding MainNote.Title}"/>
-                <Button Content="Добавить" x:Name="addButton" Padding="5" HorizontalAlignment="Right" 
+            <GroupBox Header="Добавление элемента" BorderThickness="2" Margin="2">
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Grid.Column="0" VerticalAlignment="Top" Orientation="Horizontal">
+                        <TextBox x:Name="noteTextBox" Height="30" Width="200" Text="{Binding MainNote.Title}"/>
+                        <Button Content="Добавить" x:Name="addButton" Padding="5" HorizontalAlignment="Right" 
                         Command="{Binding AddCommand}" Background="{StaticResource greenButtonColor}"/>
-            </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+
 
             <GroupBox Grid.Column="1" 
                       Header="Задачи" 
@@ -39,38 +44,51 @@
                                 <Border Margin="2">
                                     <Grid Margin="2">
                                         <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition/>
                                             <RowDefinition/>
                                         </Grid.RowDefinitions>
-                                        <StackPanel Grid.Row="0">
+
+
+                                        <StackPanel Grid.Column="0">
                                             <TextBlock FontSize="12" FontWeight="Bold" Text="Id"/>
                                             <TextBlock FontSize="18" Text="{Binding Path=Id}"/>
                                             <TextBlock FontSize="12" FontWeight="Bold" Text="Title"/>
                                             <TextBlock FontSize="18" Text="{Binding Path=Title}"/>
                                             <TextBlock FontSize="12" FontWeight="Bold" Text="Date"/>
                                             <TextBlock FontSize="18" Text="{Binding Path=Date}"/>
+                                            <TextBlock FontSize="12" FontWeight="Bold" Text="Priority"/>
+                                            <TextBlock FontSize="18" Text="{Binding Path=Priority}"/>
                                         </StackPanel>
                                     </Grid>
                                 </Border>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <WrapPanel Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center">
-                        <Button Background="{StaticResource redButtonColor}" 
+                    <Grid Grid.Row="1">
+
+                        <WrapPanel VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0 10 0 0">
+
+                            <Button Background="{StaticResource redButtonColor}" 
                                                     Content="Удалить" 
                                                     x:Name="removeButton"
                                                     Padding="5" HorizontalAlignment="Right" 
-                                                    Margin="0 10 0 0" 
                                                     Command="{Binding RemoveCommand}" CommandParameter="{Binding}"/>
-                        <Button Background="{StaticResource gradientButtonColor}" 
+                            <Button Background="{StaticResource gradientButtonColor}" 
                                                     Content="Редактировать"
                                                     x:Name="editButton" 
                                                     Padding="5" 
-                                                    HorizontalAlignment="Right" Margin="0 10 0 0" Command="{Binding OpenCommand}"/>
-                    </WrapPanel>
+                                                    HorizontalAlignment="Right" Command="{Binding OpenCommand}"/>
+                            <ComboBox Grid.Column="1"
+                                                  ItemsSource="{Binding PriorityOptions}"
+                                                  SelectedItem="{Binding SelectedPriority, Mode=TwoWay}"
+                                                  Height="25"
+                                                  HorizontalContentAlignment="Stretch"/>
+                        </WrapPanel>
+                    </Grid>
                 </Grid>
             </GroupBox>
         </Grid>

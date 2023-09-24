@@ -8,7 +8,7 @@
         Title="EditNoteWindow" Height="200" Width="400">
     <StackPanel Margin="10">
         <TextBlock Text="Введите текст на который хотите изменить"/>
-        <TextBox x:Name="editText" Text="{Binding EditNote}"/>
+        <TextBox x:Name="editText" Text="{Binding EditNoteViewModel.EditNote}"/>
         <StackPanel Margin="0 5 0 0" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button x:Name="AgreeButton" Command="{Binding SaveCommand}" Background="{StaticResource gradientButtonColor}">Применить</Button>
             <Button x:Name="CancelWindowBtn" Click="CancelWindowBtn_Click" Margin="10 0 0 0" Background="{StaticResource redButtonColor}">Отмена</Button>
