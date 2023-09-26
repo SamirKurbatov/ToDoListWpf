@@ -1,6 +1,6 @@
 ﻿namespace ToDoList.Domain
 {
-    public enum PriorityType
+    public enum ePriorityType
     {
         None = -1,
         Low = 0,

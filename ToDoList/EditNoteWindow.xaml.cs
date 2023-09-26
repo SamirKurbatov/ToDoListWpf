@@ -18,7 +18,7 @@ namespace ToDoList
             DataContext = this;
         }
 
-        public RelayCommand SaveCommand => new RelayCommand(() =>
+        public ICommand SaveCommand => new RelayCommand(() =>
         {
             EditNode.Title = editText.Text;
             DialogResult = true;
@@ -28,5 +28,6 @@ namespace ToDoList
         {
             this.Close();
         }
+        
     }
 }

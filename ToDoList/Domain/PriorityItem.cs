@@ -4,7 +4,7 @@
     {
         public string Name { get; set; }
 
-        public PriorityItem(PriorityType name)
+        public PriorityItem(ePriorityType name)
         {
             Name = name.ToString();
         }
