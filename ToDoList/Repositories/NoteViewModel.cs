@@ -51,9 +51,16 @@ namespace ToDoList
                 return addCommand ?? (addCommand = new RelayCommand(() =>
                 {
                     var title = MainNote.Title;
-                    MainNote.Priority = SelectedPriority;
-                    Notes.Add(new Note(title, MainNote.Priority));
-                    MainNote.Title = "";
+                    if (string.IsNullOrWhiteSpace(title))
+                    {
+                        MessageBox.Show($"Задача не может иметь пустое значение");
+                    }
+                    else
+                    {
+                        MainNote.Priority = SelectedPriority;
+                        Notes.Add(new Note(title, MainNote.Priority));
+                        MainNote.Title = "";
+                    }
                 }));
             }
         }
@@ -86,10 +93,11 @@ namespace ToDoList
                 {
                     if (SelectedNote != null)
                     {
-                        var page = new EditNoteWindow();
+                        var page = new EditNoteWindow(this);
                         var result = page.ShowDialog();
                         if (result == true)
                         {
+                            SelectedNote.Priority = page.EditNode.Priority;
                             SelectedNote.Title = page.EditNode.Title;
                         }
                     }

@@ -99,11 +99,11 @@
                             </Button>
                             <Button 
                                 Style="{StaticResource manageNoteButtonStyle}" 
-                                 Content="Редактировать"
-                                                    x:Name="editButton" 
-                                                    HorizontalAlignment="Right" Command="{Binding NoteViewModel.OpenCommand}"
+                                Content="Редактировать"
+                                x:Name="editButton" 
+                                HorizontalAlignment="Right" Command="{Binding NoteViewModel.OpenCommand}"
                                                    />
-                            <ComboBox Grid.Column="1"
+                            <ComboBox x:Name="priorityComboBox" Grid.Column="1"
                                                   ItemsSource="{Binding NoteViewModel.PriorityOptions}"
                                                   SelectedItem="{Binding NoteViewModel.SelectedPriority, Mode=TwoWay}"
                                                   Height="25"

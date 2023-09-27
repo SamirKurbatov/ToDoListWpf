@@ -9,6 +9,11 @@
     <StackPanel Margin="10">
         <TextBlock Text="Введите текст на который хотите изменить"/>
         <TextBox x:Name="editText" Text="{Binding EditNoteViewModel.EditNote}"/>
+        <ComboBox Grid.Column="1"
+                                                  ItemsSource="{Binding NoteViewModel.PriorityOptions}"
+                                                  SelectedItem="{Binding NoteViewModel.SelectedPriority, Mode=TwoWay}"
+                                                  Height="25"
+                                                  HorizontalContentAlignment="Stretch"/>
         <StackPanel Margin="0 5 0 0" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button x:Name="AgreeButton" 
                     Command="{Binding SaveCommand}" 

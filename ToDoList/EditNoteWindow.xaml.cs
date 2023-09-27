@@ -10,16 +10,21 @@ namespace ToDoList
     /// </summary>
     public partial class EditNoteWindow : Window
     {
+        public NoteViewModel NoteViewModel { get; set; } 
+
         public Note EditNode { get; set; }
-        public EditNoteWindow()
+
+        public EditNoteWindow(NoteViewModel noteViewModel)
         {
             InitializeComponent();
             EditNode = new();
+            NoteViewModel = noteViewModel;
             DataContext = this;
         }
 
         public ICommand SaveCommand => new RelayCommand(() =>
         {
+            EditNode.Priority = NoteViewModel.SelectedPriority;
             EditNode.Title = editText.Text;
             DialogResult = true;
         });
