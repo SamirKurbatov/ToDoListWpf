@@ -10,7 +10,7 @@ namespace ToDoList
     /// </summary>
     public partial class EditNoteWindow : Window
     {
-        public NoteViewModel NoteViewModel { get; set; } 
+        public NoteViewModel NoteViewModel { get; } 
 
         public Note EditNode { get; set; }
 

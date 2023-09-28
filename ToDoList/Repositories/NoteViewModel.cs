@@ -2,15 +2,18 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
+using ToDoList.BL;
 using ToDoList.Domain;
 
 namespace ToDoList
 {
     public class NoteViewModel : INotifyPropertyChanged
     {
+        #region Propereties
         public PriorityItem SelectedPriority { set; get; }
 
         private Note selectedNote;
@@ -26,11 +29,15 @@ namespace ToDoList
 
         public Note MainNote { set; get; } = new Note();
 
-        public ObservableCollection<Note> Notes { set; get; } = new();
-
-        public NoteViewModel()
+        private ObservableCollection<Note> notes = new();
+        public ObservableCollection<Note> Notes
         {
-            Notes = GetDefaultNotes();
+            get => notes;
+            set
+            {
+                notes = value;
+                OnPropertyChanged();
+            }
         }
 
         public ObservableCollection<PriorityItem> PriorityOptions { get; set; } = new()
@@ -39,9 +46,14 @@ namespace ToDoList
             new PriorityItem(ePriorityType.Medium),
             new PriorityItem(ePriorityType.High)
         };
+        #endregion
+
+        public NoteViewModel()
+        {
+            Notes = GetDefaultNotes();
+        }
 
         #region Commands
-
 
         private ICommand? addCommand;
         public ICommand AddCommand
@@ -51,21 +63,22 @@ namespace ToDoList
                 return addCommand ?? (addCommand = new RelayCommand(() =>
                 {
                     var title = MainNote.Title;
-                    if (string.IsNullOrWhiteSpace(title))
+                    var priority = SelectedPriority;
+                    if (!string.IsNullOrWhiteSpace(title) && priority is not null)
                     {
-                        MessageBox.Show($"Задача не может иметь пустое значение");
+                        MainNote.Priority = priority;
+                        Notes.Add(new Note(title, MainNote.Priority));
+                        MainNote.Title = "";
                     }
                     else
                     {
-                        MainNote.Priority = SelectedPriority;
-                        Notes.Add(new Note(title, MainNote.Priority));
-                        MainNote.Title = "";
+                        MessageBox.Show("Проверьте все поля!");
                     }
                 }));
             }
         }
 
-        private ICommand removeCommand;
+        private ICommand? removeCommand;
         public ICommand RemoveCommand
         {
             get
@@ -102,6 +115,47 @@ namespace ToDoList
                         }
                     }
                 }, () => Notes.Count > 0));
+            }
+        }
+
+        private ICommand? orderByPriority;
+        public ICommand OrderByPriority
+        {
+            get
+            {
+                return orderByPriority ?? (orderByPriority = new RelayCommand(() =>
+                {
+                    var filtredNotes = Notes
+                        .OrderBy((x => x), new PriorityComparer())
+                        .ThenBy(x => x.Id);
+                    Notes = new ObservableCollection<Note>(filtredNotes);
+                }));
+            }
+        }
+
+        private ICommand? orderByDate;
+        public ICommand OrderByDate
+        {
+            get
+            {
+                return orderByDate ?? (orderByDate = new RelayCommand(() =>
+                {
+                    var filtredNotes = Notes.OrderByDescending(x => x.Date);
+                    Notes = new ObservableCollection<Note>(filtredNotes);
+                }));
+            }
+        }
+
+        private ICommand? orderByTitle;
+        public ICommand OrderByTitle
+        {
+            get
+            {
+                return orderByTitle ?? (orderByTitle = new RelayCommand(() =>
+                {
+                    var filtredNotes = Notes.OrderBy(x => x.Title);
+                    Notes = new ObservableCollection<Note>(filtredNotes);
+                }));
             }
         }
         #endregion

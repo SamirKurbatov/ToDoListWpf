@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoList"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="800" Style="{DynamicResource WindowStyle}">
+        Title="MainWindow" MinHeight="550" MinWidth="600" Height="650" Width="850" Style="{DynamicResource WindowStyle}">
     <Window.Resources>
         <!--NoteDataTemplate-->
         <DataTemplate x:Key="noteDataTemplate">
@@ -36,58 +37,106 @@
             </Border>
         </DataTemplate>
     </Window.Resources>
-    <Border Padding="10">
+    <Border Padding="0 10 10 10">
         <Grid>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width=".5*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
+            <!--SideBar-->
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height=".05*"/>
+                </Grid.RowDefinitions>
+                <ComboBox x:Name="styleBox" Grid.Row="1"/>
+            </Grid>
+
             <GroupBox Style="{DynamicResource ComboBoxHeaderStyle}" 
                       BorderThickness="2" 
-                      Margin="2">
+                      Margin="2 0"
+                      Grid.Row="1"
+                      Grid.Column="1">
                 <GroupBox.Header>
                     <Label Style="{DynamicResource HeaderLabelStyle}" Content="Добавление элемента"/>
                 </GroupBox.Header>
-                <StackPanel Orientation="Vertical" Style="{DynamicResource LightGrayBackGroundColor}">
-                    <StackPanel Grid.Column="0" VerticalAlignment="Top" Orientation="Horizontal">
+                <StackPanel Style="{DynamicResource LightGrayBackGroundColor}">
+                    <StackPanel 
+                        Grid.Column="0" 
+                        VerticalAlignment="Top" >
                         <TextBox x:Name="noteTextBox" VerticalContentAlignment="Center"  
-                                 FontSize="16" 
-                                 Width="200" Text="{Binding NoteViewModel.MainNote.Title}"/>
-                        <Button Content="Добавить" x:Name="addButton" HorizontalAlignment="Right" 
+                                 FontSize="16"
+                                 Text="{Binding NoteViewModel.MainNote.Title}" Margin="2 0"/>
+                        <Button Content="Добавить" x:Name="addButton" 
                                 Command="{Binding NoteViewModel.AddCommand}" 
                                 Style="{StaticResource addNoteButtonStyle}"/>
+
                     </StackPanel>
-                    <ComboBox x:Name="styleBox"/>
                 </StackPanel>
             </GroupBox>
-
-            <GroupBox Grid.Column="1" 
+            <GroupBox Grid.Column="2" 
                       BorderThickness="2" 
-                      Margin="2"
+                      Margin="2 0"
                       Style="{DynamicResource ComboBoxHeaderStyle}">
                 <GroupBox.Header>
                     <Label Style="{DynamicResource HeaderLabelStyle}" Content="Задачи"/>
                 </GroupBox.Header>
-                <Grid>
+
+                <Grid ShowGridLines="True">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="30" MinHeight="20"/>
                         <RowDefinition/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
+                    <!--NotesFilter-->
+                    <StackPanel Grid.Row="0" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <TextBlock Text="Фильтровать по: "/>
+                        <Button FontSize="10" Padding="2">
+                            <fa:FontAwesome Icon="Filter"/>
+                            <Button.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Command="{Binding NoteViewModel.OrderByPriority}">
+                                        <MenuItem.Header>Приоритету</MenuItem.Header>
+                                        <MenuItem.Icon>
+                                            <fa:FontAwesome Icon="LineChart"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Command="{Binding NoteViewModel.OrderByDate}">
+                                        <MenuItem.Header>Дате</MenuItem.Header>
+                                        <MenuItem.Icon>
+                                            <fa:FontAwesome Icon="CalendarTimesOutline"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Command="{Binding NoteViewModel.OrderByTitle}">
+                                        <MenuItem.Header>Названию</MenuItem.Header>
+                                        <MenuItem.Icon>
+                                            <fa:FontAwesome Icon="FileText"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                        </Button>
+                    </StackPanel>
+
+                    <!--Notes-->
                     <ListView x:Name="noteListView" 
-                              Grid.Row="0"
+                              Grid.Row="1"
                               ItemsSource="{Binding NoteViewModel.Notes}" 
                               SelectedItem="{Binding NoteViewModel.SelectedNote}" 
                               Height="Auto" Style="{DynamicResource ListViewBackGroundColor}"
                               ItemTemplate="{StaticResource noteDataTemplate}" 
                               ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                              VirtualizingStackPanel.ScrollUnit="Pixel">
+                              VirtualizingStackPanel.ScrollUnit="Pixel"
+                              HorizontalAlignment="Center">
                         <ListView.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <WrapPanel/>
                             </ItemsPanelTemplate>
                         </ListView.ItemsPanel>
                     </ListView>
-                    <Grid Grid.Row="1">
+                    <!--Buttons-->
+                    <Grid Grid.Row="2">
                         <WrapPanel VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0 10 0 0">
                             <Button
                                 Style="{StaticResource manageNoteButtonStyle}"
@@ -101,8 +150,7 @@
                                 Style="{StaticResource manageNoteButtonStyle}" 
                                 Content="Редактировать"
                                 x:Name="editButton" 
-                                HorizontalAlignment="Right" Command="{Binding NoteViewModel.OpenCommand}"
-                                                   />
+                                HorizontalAlignment="Right" Command="{Binding NoteViewModel.OpenCommand}"/>
                             <ComboBox x:Name="priorityComboBox" Grid.Column="1"
                                                   ItemsSource="{Binding NoteViewModel.PriorityOptions}"
                                                   SelectedItem="{Binding NoteViewModel.SelectedPriority, Mode=TwoWay}"

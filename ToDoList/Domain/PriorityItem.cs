@@ -1,17 +1,24 @@
-﻿namespace ToDoList.Domain
-{
-    public class PriorityItem
-    {
-        public string Name { get; set; }
+﻿using System;
 
-        public PriorityItem(ePriorityType name)
+namespace ToDoList.Domain
+{
+    public class PriorityItem : IComparable<ePriorityType>
+    {
+        public ePriorityType PriorityType { get; set; }
+
+        public PriorityItem(ePriorityType priorityType)
         {
-            Name = name.ToString();
+            PriorityType = priorityType;
         }
 
         public override string ToString()
         {
-            return Name;
+            return PriorityType.ToString();
+        }
+
+        public int CompareTo(ePriorityType other)
+        {
+            return (int)PriorityType.CompareTo((int)other);
         }
     }
 }
