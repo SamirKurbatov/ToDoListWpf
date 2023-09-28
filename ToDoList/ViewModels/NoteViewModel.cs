@@ -126,8 +126,7 @@ namespace ToDoList
                 return orderByPriority ?? (orderByPriority = new RelayCommand(() =>
                 {
                     var filtredNotes = Notes
-                        .OrderBy((x => x), new PriorityComparer())
-                        .ThenBy(x => x.Id);
+                        .OrderBy((x => x), new PriorityComparer());
                     Notes = new ObservableCollection<Note>(filtredNotes);
                 }));
             }

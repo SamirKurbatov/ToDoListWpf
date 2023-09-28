@@ -9,9 +9,6 @@ namespace ToDoList
     {
         #region Properties
 
-        private static int nextId = 1;
-        public int Id { get; set; }
-
         private string title;
         public string Title
         {
@@ -40,7 +37,6 @@ namespace ToDoList
         #region Constructors
         public Note(string title, PriorityItem priority)
         {
-            Id = nextId++;
             Title = title;
             Date = DateTime.Now;
             Priority = priority;
@@ -69,7 +65,7 @@ namespace ToDoList
 
         public override string ToString()
         {
-            return $"Id:{Id}\nНазвание: {Title}\nДата и время:{Date}";
+            return $"Название: {Title}\nДата и время создания:{Date}";
         }
     }
 }
