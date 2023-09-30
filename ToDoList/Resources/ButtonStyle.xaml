@@ -13,7 +13,7 @@
     <Style x:Key="IsActiveSelectedButton" BasedOn="{StaticResource BaseButtonStyle}" TargetType="Button">
         <Setter Property="Button.IsEnabled" Value="True"/>
         <Style.Triggers>
-            <DataTrigger Binding="{Binding NoteViewModel.SelectedNote}" Value="{x:Null}">
+            <DataTrigger Binding="{Binding SelectedNote}" Value="{x:Null}">
                 <Setter Property="Button.IsEnabled" Value="False"/>
             </DataTrigger>
         </Style.Triggers>

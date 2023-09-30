@@ -44,7 +44,7 @@ namespace ToDoList
 
         public Note(string title) : this(title, null)
         {
-            
+
         }
 
         public Note()

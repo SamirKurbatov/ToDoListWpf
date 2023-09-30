@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using ToDoList.Domain;
 
-namespace ToDoList.ViewModels
+namespace ToDoList
 {
     public class NoteGroupViewModel
     {

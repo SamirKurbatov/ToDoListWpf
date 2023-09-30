@@ -8,16 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Images\filter.svg" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Images\filter.svg" />
   </ItemGroup>
 
 </Project>
