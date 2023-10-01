@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -18,38 +19,10 @@ public partial class AddNoteViewModel : ObservableObject
 
     #endregion
 
-    private ObservableCollection<Note> notes;
-
-    public AddNoteViewModel()
-    {
-        notes = NotesRepository.Instance.Notes;
-    }
-
     [RelayCommand]
     public void Add()
     {
         var title = MainNote.Title;
-        if (!string.IsNullOrWhiteSpace(title))
-        {
-            notes.Add(new Note(title));
-            MainNote.Title = "";
-        }
-        else
-        {
-            MessageBox.Show("Проверьте все поля!");
-        }
+        WeakReferenceMessenger.Default.Send(new Note(title));
     }
-}
-
-public class NotesRepository
-{
-    private static NotesRepository instance;
-
-    private ObservableCollection<Note> notes = new();
-
-    public static NotesRepository Instance 
-        => instance ?? (instance = new NotesRepository());
-
-    public ObservableCollection<Note> Notes
-        => notes;
 }

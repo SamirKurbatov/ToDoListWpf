@@ -1,9 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
@@ -14,26 +16,26 @@ namespace ToDoList;
 
 public partial class MainViewModel : ObservableObject
 {
-    public MainViewModel()
-    {
-        generalNotes = NotesRepository.Instance.Notes;
-    }
-
     [ObservableProperty]
-    private ObservableCollection<Note> generalNotes;
-
-    [ObservableProperty]
-    private ObservableCollection<Note> filtredNotes;
+    private ObservableCollection<Note> notes = new();
 
     [ObservableProperty]
     private Note selectedNote;
+
+    public MainViewModel()
+    {
+        WeakReferenceMessenger.Default.Register<Note>(this, (r,m) =>
+        {
+            Notes.Add(m);
+        });
+    }
 
     [RelayCommand]
     public void Remove()
     {
         if (SelectedNote != null)
         {
-            GeneralNotes.Remove(SelectedNote);
+            Notes.Remove(SelectedNote);
         }
         else
         {
@@ -55,21 +57,21 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     public void OrderByPriority()
     {
-        FiltredNotes = new ObservableCollection<Note>(generalNotes
-                   .OrderBy((x => x), new PriorityComparer()));
+        var filtedNotes = Notes.OrderBy(x => x, new PriorityComparer());
+        Notes = new ObservableCollection<Note>(filtedNotes);
     }
 
     [RelayCommand]
     public void OrderByDate()
     {
-        FiltredNotes = new ObservableCollection<Note>(GeneralNotes
-            .OrderByDescending(x => x.Date));
+        var filtedNotes = Notes.OrderByDescending(x => x.Date);
+        Notes = new ObservableCollection<Note>(filtedNotes);
     }
 
     [RelayCommand]
     public void OrderByTitle()
     {
-        FiltredNotes = new ObservableCollection<Note>(GeneralNotes
-            .OrderBy(x => x.Title));
+        var filtredNotes = Notes.OrderBy(x => x.Title);
+        Notes = new ObservableCollection<Note>(filtredNotes);
     }
 }

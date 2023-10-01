@@ -26,7 +26,7 @@
                                  FontSize="16"
                                  Text="{Binding MainNote.Title}" Margin="2 0"/>
                         <Button Content="Добавить" x:Name="addButton" 
-                                Command="{Binding AddCommand}" CommandParameter="{Binding Notes}" 
+                                Command="{Binding AddCommand}" 
                                 Style="{StaticResource addNoteButtonStyle}"/>
                     </StackPanel>
                 </StackPanel>

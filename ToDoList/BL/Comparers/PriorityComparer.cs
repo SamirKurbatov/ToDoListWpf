@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ToDoList.BL
 {
@@ -10,9 +11,18 @@ namespace ToDoList.BL
     {
         public int Compare(Note? x, Note? y)
         {
-            var xPriority = x.Priority.PriorityType;
-            var yPriority = y.Priority.PriorityType;
-            return xPriority.CompareTo(yPriority);
+            try
+            {
+                var xPriority = x.Priority.PriorityType;
+                var yPriority = y.Priority.PriorityType;
+
+                return xPriority.CompareTo(yPriority);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Приоритет не был задан! ", ex.Message);
+            }
+            return 0;
         }
     }
 }

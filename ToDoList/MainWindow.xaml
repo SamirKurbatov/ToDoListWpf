@@ -94,19 +94,19 @@
                                 <fa:FontAwesome Icon="Filter"/>
                                 <Button.ContextMenu>
                                     <ContextMenu>
-                                        <MenuItem Command="{Binding OrderByPriority}">
+                                        <MenuItem Command="{Binding OrderByPriorityCommand}">
                                             <MenuItem.Header>Приоритету</MenuItem.Header>
                                             <MenuItem.Icon>
                                                 <fa:FontAwesome Icon="LineChart"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <MenuItem Command="{Binding OrderByDate}">
+                                        <MenuItem Command="{Binding OrderByDateCommand}">
                                             <MenuItem.Header>Дате</MenuItem.Header>
                                             <MenuItem.Icon>
                                                 <fa:FontAwesome Icon="CalendarTimesOutline"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
-                                        <MenuItem Command="{Binding OrderByTitle}">
+                                        <MenuItem Command="{Binding OrderByTitleCommand}">
                                             <MenuItem.Header>Названию</MenuItem.Header>
                                             <MenuItem.Icon>
                                                 <fa:FontAwesome Icon="FileText"/>
@@ -120,7 +120,7 @@
                         <!--Notes-->
                         <ListView x:Name="noteListView" 
                               Grid.Row="1"
-                              ItemsSource="{Binding GeneralNotes}" 
+                              ItemsSource="{Binding Notes}" 
                               SelectedItem="{Binding SelectedNote}" 
                               Height="Auto" Style="{DynamicResource ListViewBackGroundColor}"
                               ItemTemplate="{StaticResource noteDataTemplate}" 
