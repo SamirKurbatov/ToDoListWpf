@@ -10,24 +10,34 @@
         Title="AddNoteWindow" Height="450" Width="800">
     <Border Padding="10">
         <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
             <GroupBox Style="{DynamicResource ComboBoxHeaderStyle}" 
                       BorderThickness="2" 
                       Margin="2 0"
                       Grid.Row="0"
                       Grid.Column="1">
                 <GroupBox.Header>
-                    <Label Style="{DynamicResource HeaderLabelStyle}" Content="Добавление элемента"/>
+                    <Label Style="{DynamicResource HeaderLabelStyle}" Content="Добавление задачи"/>
                 </GroupBox.Header>
                 <StackPanel Style="{DynamicResource LightGrayBackGroundColor}">
                     <StackPanel 
                         Grid.Column="0" 
                         VerticalAlignment="Top" >
+                        <Label Content="Название"/>
                         <TextBox x:Name="noteTextBox" VerticalContentAlignment="Center"  
                                  FontSize="16"
-                                 Text="{Binding MainNote.Title}" Margin="2 0"/>
+                                 Text="{Binding MainNote.Title}"/>
                         <Button Content="Добавить" x:Name="addButton" 
                                 Command="{Binding AddCommand}" 
                                 Style="{StaticResource addNoteButtonStyle}"/>
+                        <Label Content="Приоритет"/>
+                        <ComboBox 
+                            SelectedItem="{Binding SelectedPriority}"
+                            ItemsSource="{Binding PriorityOptions}">
+                        </ComboBox>
                     </StackPanel>
                 </StackPanel>
             </GroupBox>

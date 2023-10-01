@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using ToDoList.Domain;
@@ -12,7 +13,7 @@ namespace ToDoList
         private string title;
         public string Title
         {
-            get { return title; }
+            get => title; 
             set
             {
                 title = value;
@@ -23,6 +24,7 @@ namespace ToDoList
         public DateTime Date { get; set; }
 
         private PriorityItem priority;
+
         public PriorityItem Priority
         {
             get => priority;
@@ -39,7 +41,7 @@ namespace ToDoList
         {
             Title = title;
             Date = DateTime.Now;
-            Priority = priority;
+            this.priority = priority;
         }
 
         public Note(string title) : this(title, null)
@@ -57,10 +59,7 @@ namespace ToDoList
 
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
 
         public override string ToString()

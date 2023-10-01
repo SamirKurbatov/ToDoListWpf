@@ -1,14 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Net.WebSockets;
-using System.Runtime.CompilerServices;
 using System.Windows;
-using System.Windows.Input;
 using ToDoList.BL;
 using ToDoList.Domain;
 
@@ -17,14 +12,15 @@ namespace ToDoList;
 public partial class MainViewModel : ObservableObject
 {
     [ObservableProperty]
-    private ObservableCollection<Note> notes = new();
+    private ObservableCollection<Note> notes;
 
     [ObservableProperty]
     private Note selectedNote;
 
     public MainViewModel()
     {
-        WeakReferenceMessenger.Default.Register<Note>(this, (r,m) =>
+        notes = new();
+        WeakReferenceMessenger.Default.Register<Note>(this, (r, m) =>
         {
             Notes.Add(m);
         });
