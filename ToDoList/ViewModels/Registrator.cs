@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace ToDoList.ViewModels
+namespace ToDoList
 {
     internal static class Registrator
     {

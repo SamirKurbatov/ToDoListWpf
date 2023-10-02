@@ -1,10 +1,22 @@
-﻿namespace ToDoList.Infrastructure.Services
+﻿using System.Collections.Generic;
+using ToDoList.Data;
+
+namespace ToDoList.Infrastructure.Services
 {
     internal class AppWindowUserDialogService : IUserDialog
     {
-        public bool Edit(Note note)
+        private IEnumerable<Note> notes;
+
+        public AppWindowUserDialogService(/* репозиторий групп */)
         {
-            return false;
+            notes = TodoData.Notes;
+        }
+
+        public bool Edit(Note model)
+        {
+            var viewModel = new EditViewModel(model, notes);
+            var view = new EditNoteWindow { DataContext  = viewModel };
+            return view.ShowDialog() ?? false;
         }
     }
 }

@@ -6,13 +6,13 @@
         xmlns:local="clr-namespace:ToDoList"
         d:DataContext="{d:DesignInstance Type=local:EditViewModel}"
         mc:Ignorable="d"
-        Title="EditNoteWindow" Height="450" Width="800" Style="{DynamicResource WindowStyle}">
+        Title="EditNoteWindow" Height="384" Width="233" Style="{DynamicResource WindowStyle}">
     <Border Padding="10">
         <Grid>
             <GroupBox>
-                
+
             </GroupBox>
         </Grid>
     </Border>
-    
+
 </Window>

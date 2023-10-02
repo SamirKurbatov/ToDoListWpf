@@ -8,7 +8,7 @@ namespace ToDoList;
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>
-public partial class MainWindow : Window
+public partial class MainWindow
 {
     public MainWindow()
     {
@@ -18,7 +18,6 @@ public partial class MainWindow : Window
         styleBox.SelectionChanged += ThemeChange;
         styleBox.ItemsSource = styles;
         styleBox.SelectedItem = "Dark";
-        this.DataContext = new MainViewModel();
     }
 
     private void ThemeChange(object sender, SelectionChangedEventArgs e)

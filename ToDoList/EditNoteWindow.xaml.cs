@@ -22,7 +22,6 @@ namespace ToDoList
         public EditNoteWindow()
         {
             InitializeComponent();
-            this.DataContext = new EditViewModel();
         }
     }
 }

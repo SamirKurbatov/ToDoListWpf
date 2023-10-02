@@ -10,7 +10,6 @@ namespace ToDoList
         public AddNoteWindow()
         {
             InitializeComponent();
-            DataContext = new AddNoteViewModel();
         }
     }
 }

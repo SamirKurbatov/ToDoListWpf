@@ -6,7 +6,7 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:ToDoList"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
-        d:DataContext="{d:DesignInstance Type=local:MainViewModel, IsDesignTimeCreatable=True}"
+        DataContext="{Binding MainModel, Source={StaticResource Locator}}"
         mc:Ignorable="d"
         Title="Заголовок окна" 
         MinHeight="550" MinWidth="600" Height="650" Width="850" 
@@ -19,6 +19,7 @@
 
     <!--Resources-->
     <Window.Resources>
+        <local:ViewModelLocator x:Key="Locator"/>
         <!--NoteDataTemplate-->
         <DataTemplate x:Key="noteDataTemplate" DataType="local:Note">
             <Border Margin="2">
@@ -99,7 +100,7 @@
                                     Content="Редактировать"
                                     x:Name="editButton" 
                                     Command="{Binding EditCommand}"
-                                    CommandParameter=""/>
+                                    CommandParameter="{Binding SelectedNote}"/>
                             <Button
                                     Style="{StaticResource manageNoteButtonStyle}"
                                     Content="Удалить" 

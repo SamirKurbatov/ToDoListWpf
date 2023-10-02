@@ -5,7 +5,6 @@ using System;
 using System.Linq;
 using System.Windows;
 using ToDoList.Infrastructure.Services;
-using ToDoList.ViewModels;
 
 namespace ToDoList
 {
@@ -23,6 +22,8 @@ namespace ToDoList
         private static IHost hosting;
         public static IHost Hosting => hosting ??= CreateHostBuilder(Environment.GetCommandLineArgs()).Build();
 
+        public static IServiceProvider Services => Hosting.Services;
+
         private static IHostBuilder CreateHostBuilder(string[] args)
             => Host.CreateDefaultBuilder(args).ConfigureAppConfiguration(opt => opt.AddJsonFile("configuration.json", true, true))
             .ConfigureServices(ConfigureServices);
@@ -31,6 +32,20 @@ namespace ToDoList
         {
             services.AddViewModels();
             services.AddServices();
+        }
+
+        protected override async void OnStartup(StartupEventArgs e)
+        {
+            var host = Hosting;
+            base.OnStartup(e);
+            await host.StartAsync();
+        }
+
+        protected override async void OnExit(ExitEventArgs e)
+        {
+            using var host = Hosting;
+            base.OnExit(e);
+            await host.StopAsync();
         }
     }
 }
