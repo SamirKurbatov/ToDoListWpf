@@ -31,7 +31,7 @@
                                        Text="{Binding Path=Date, 
                                                       StringFormat=Дата создания: {0}, ConverterCulture=ru-RU}"/>
                         <TextBlock FontSize="18" 
-                                       Text="{Binding Path=Priority, StringFormat=Приоритет: {0}}"/>
+                                       Text="{Binding Path=PriorityItem, StringFormat=Приоритет: {0}}"/>
                     </StackPanel>
                     <!--<Button Content="X" 
                             Padding="3 0"

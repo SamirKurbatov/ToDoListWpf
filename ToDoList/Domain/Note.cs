@@ -25,7 +25,7 @@ namespace ToDoList
 
         private PriorityItem priority;
 
-        public PriorityItem Priority
+        public PriorityItem PriorityItem
         {
             get => priority;
             set
@@ -41,7 +41,7 @@ namespace ToDoList
         {
             Title = title;
             Date = DateTime.Now;
-            this.priority = priority;
+            PriorityItem = priority;
         }
 
         public Note(string title) : this(title, null)

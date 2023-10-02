@@ -26,6 +26,12 @@ namespace ToDoList.Infrastructure.Services
                 Owner = App.CurrentWindow,
                 WindowStartupLocation = WindowStartupLocation.CenterOwner
             };
+
+            viewModel.Complete += (s, e) =>
+            {
+                view.DialogResult = e.Arg;
+                view.Close();
+            };
             return view.ShowDialog() ?? false;
         }
     }

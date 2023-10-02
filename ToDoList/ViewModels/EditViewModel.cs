@@ -2,30 +2,67 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using ToDoList.Domain;
+using ToDoList.Infrastructure;
 
 namespace ToDoList;
 
-public class EditViewModel
+public class EditViewModel : ViewModel
 {
+    public event EventHandler<EventArgs<bool>> Complete;
+
+    #region Propereties
+    private readonly Dictionary<string, object> Values = new();
+
     private readonly Note note;
 
-    public IEnumerable<Note> Notes { get; set; }
+    public IEnumerable<Note> Notes { get; }
 
-    public IEnumerable<PriorityItem> PriorityItems { get; set;  }
+    public IEnumerable<PriorityItem> PriorityItems { get; }
 
-    public string Title { get => note.Title; set { } }
+    public string Title
+    {
+        get => GetValue(note.Title);
+        set => SetValue(value);
+    }
 
-    public PriorityItem Priority { get => note.Priority; set { } }
+    public PriorityItem PriorityItem
+    {
+        get => GetValue(note.PriorityItem);
+        set => SetValue(value);
+    }
+    #endregion
+
+
+    protected virtual bool SetValue(object value, [CallerMemberName] string propName = "")
+    {
+        if (Values.TryGetValue(propName, out var oldValue) && Equals(value, oldValue))
+        {
+            return false;
+        }
+        Values[propName] = value;
+        OnPropertyChanged(propName);
+        return true;
+    }
+
+    protected virtual T GetValue<T>(T @default, [CallerMemberName] string propName = "")
+    {
+        if (Values.TryGetValue(propName, out var value))
+        {
+            return (T)value;
+        }
+        return @default;
+    }
 
     #region Constructors
 
 
-    public EditViewModel() 
-        : this (new Note(),Enumerable.Empty<Note>(), Enumerable.Empty<PriorityItem>()) { }
+    public EditViewModel()
+        : this(new Note(), Enumerable.Empty<Note>(), Enumerable.Empty<PriorityItem>()) { }
 
     public EditViewModel(Note note, IEnumerable<Note> notes, IEnumerable<PriorityItem> items)
     {
@@ -42,7 +79,8 @@ public class EditViewModel
 
     public void OnCommitCommand(object n)
     {
-
+        Commit();
+        Complete?.Invoke(this, true);
     }
 
     public bool CanCommitCommand(object n)
@@ -55,12 +93,10 @@ public class EditViewModel
         => regectCommand ??= new LambdaCommand(OnRegectCommand, CanRegectCommand);
     public void OnRegectCommand(object n)
     {
-
+        Regect();
     }
     public bool CanRegectCommand(object n)
-    {
-        return true;
-    }
+        => Values.Count > 0;
 
     private ICommand? cancelCommand;
     public ICommand? CancelCommand
@@ -68,7 +104,8 @@ public class EditViewModel
 
     public void OnCancelCommand(object n)
     {
-
+        Regect();
+        Complete?.Invoke(this, false);
     }
 
     public bool CanCancelCommand(object n)
@@ -76,4 +113,29 @@ public class EditViewModel
         return true;
     }
     #endregion
+
+    public void Commit()
+    {
+        var type = typeof(Note);
+
+        foreach (var (propName, value) in Values)
+        {
+            var property = type.GetProperty(propName);
+            if (property is null || !property.CanWrite) continue;
+
+            property.SetValue(note, value);
+        }
+
+        Values.Clear();
+    }
+
+    public void Regect()
+    {
+        var properties = Values.Keys.ToArray();
+        Values.Clear();
+        foreach (var prop in properties)
+        {
+            OnPropertyChanged(prop);
+        }
+    }
 }

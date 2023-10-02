@@ -11,8 +11,8 @@ namespace ToDoList.Infrastructure.Comparers
     {
         public int Compare(Note? x, Note? y)
         {
-            var xPriority = x.Priority.PriorityType;
-            var yPriority = y.Priority.PriorityType;
+            var xPriority = x.PriorityItem.PriorityType;
+            var yPriority = y.PriorityItem.PriorityType;
             return xPriority.CompareTo(yPriority);
         }
     }
