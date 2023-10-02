@@ -7,11 +7,19 @@ using System.Windows.Input;
 using ToDoList.Data;
 using ToDoList.Domain;
 using ToDoList.Infrastructure.Comparers;
+using ToDoList.Infrastructure.Services;
 
 namespace ToDoList;
 
 public partial class MainViewModel : ObservableObject
 {
+    private IUserDialog userDialog;
+
+    public MainViewModel(IUserDialog userDialog)
+    {
+        this.userDialog = userDialog;    
+    }
+
     [ObservableProperty]
     private ObservableCollection<Note> notes;
 
@@ -21,16 +29,14 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty]
     private Note selectedNote;
 
-    private ICommand loadDataCommand;
-    public ICommand LoadDataCommand
-        => loadDataCommand ??= new RelayCommand(OnLoadData, CanLoadDataCommandExecute);
+    #region Commands
 
-    public void OnLoadData()
+    [RelayCommand(CanExecute = "CanLoadDataCommandExecute")]
+    public void LoadData()
     {
         Notes = new ObservableCollection<Note>(TodoData.Notes);
         PriorityItems = new ObservableCollection<PriorityItem>(TodoData.PriorityItems);
     }
-
     private bool CanLoadDataCommandExecute()
     {
         return true;
@@ -38,19 +44,10 @@ public partial class MainViewModel : ObservableObject
 
     [RelayCommand]
     public void Remove()
-    {
-        if (SelectedNote != null)
-        {
-            Notes.Remove(SelectedNote);
-        }
-        else
-        {
-            MessageBox.Show("Элемент не выбран! ");
-        }
-    }
+        => Notes.Remove(SelectedNote);
 
     [RelayCommand]
-    public void ShowAddWindow()
+    public void Add()
     {
         var addNoteWindow = new AddNoteWindow();
         addNoteWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
@@ -58,11 +55,9 @@ public partial class MainViewModel : ObservableObject
     }
 
     [RelayCommand]
-    public void ShowEditWindow()
+    public void Edit(object p)
     {
-        var editNote = new EditNoteWindow();
-        editNote.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-        editNote.ShowDialog();
+        var note = (Note)p;
 
     }
 
@@ -86,4 +81,5 @@ public partial class MainViewModel : ObservableObject
         var filtredNotes = Notes.OrderBy(x => x.Title);
         Notes = new ObservableCollection<Note>(filtredNotes);
     }
+    #endregion
 }

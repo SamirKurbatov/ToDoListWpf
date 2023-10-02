@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Linq;
 using System.Windows;
+using ToDoList.Infrastructure.Services;
 using ToDoList.ViewModels;
 
 namespace ToDoList
@@ -29,6 +30,7 @@ namespace ToDoList
         private static void ConfigureServices(HostBuilderContext host, IServiceCollection services)
         {
             services.AddViewModels();
+            services.AddServices();
         }
     }
 }

@@ -18,23 +18,21 @@ namespace ToDoList.Data
 
             Notes = new()
             {
-                new Note("Default", PriorityItems.FirstOrDefault()),
-                    new Note("Default", PriorityItems.FirstOrDefault()),
-                        new Note("Default", PriorityItems.FirstOrDefault()),
-                            new Note("Default", PriorityItems.FirstOrDefault()),
-                                new Note("Default", PriorityItems.FirstOrDefault()),
-                                    new Note("Default", PriorityItems.FirstOrDefault()),
-                                        new Note("Default", PriorityItems.FirstOrDefault()),
-                                            new Note("Default", PriorityItems.FirstOrDefault()),
-                                new Note("Default", PriorityItems.FirstOrDefault()),
-                                new Note("Default", PriorityItems.FirstOrDefault()),
-                                new Note("Default", PriorityItems.FirstOrDefault()),
-                new Note("Default", PriorityItems.Skip(1).FirstOrDefault()),
-                new Note("Default", PriorityItems.Skip(2).FirstOrDefault()),
+                new Note("Default", new PriorityItem(ePriorityType.Low)),
+                new Note("Default", new PriorityItem(ePriorityType.Low)),
+                new Note("Default", new PriorityItem(ePriorityType.Medium)),
+                new Note("Default", new PriorityItem(ePriorityType.High)),
+                new Note("Default", new PriorityItem(ePriorityType.Low)),
+                new Note("Default", new PriorityItem(ePriorityType.Low)),
+                new Note("Default", new PriorityItem(ePriorityType.Low)),
+                new Note("Default", new PriorityItem(ePriorityType.Low)),
+                new Note("Default", new PriorityItem(ePriorityType.Low)),
+                new Note("Default", new PriorityItem(ePriorityType.Low)),
+                new Note("Default", new PriorityItem(ePriorityType.Low)),
             };
         }
 
-        public static List<Note> Notes { get;}
+        public static List<Note> Notes { get; }
 
         public static List<PriorityItem> PriorityItems { get; }
     }

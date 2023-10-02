@@ -10,35 +10,7 @@
     <Border Padding="10">
         <Grid>
             <GroupBox>
-                <GroupBox.Header>
-                    <Label Style="{DynamicResource HeaderLabelStyle}" Content="Редактирование задачи"/>
-                </GroupBox.Header>
-                <StackPanel Style="{DynamicResource LightGrayBackGroundColor}">
-                    <StackPanel 
-                        Grid.Column="0" 
-                        VerticalAlignment="Top" >
-                        <Label Style="{DynamicResource HeaderLabelStyle}" Content="Название"/>
-                        <TextBox x:Name="noteTextBox" VerticalContentAlignment="Center"  
-                                 FontSize="16"
-                                 Text="{Binding EditNote.Title}"/>
-                        <Label Style="{DynamicResource HeaderLabelStyle}" Content="Приоритет"/>
-                        
-                        <ComboBox 
-                            SelectedItem="{Binding SelectedPriority}"
-                            ItemsSource="{Binding PriorityData.PriorityOptions}">
-                        </ComboBox>
-                       
-                        <WrapPanel HorizontalAlignment="Right">
-                            <Button Style="{DynamicResource addNoteButtonStyle}" 
-                                    Content="Применить"
-                                    Command="{Binding AgreeCommand}"/>
-                            <Button Style="{DynamicResource cancelNoteButtonStyle}" 
-                                    Command="{Binding CancelCommand}"
-                                    CommandParameter="{Binding}"
-                                    Content="Отменить"/>
-                        </WrapPanel>
-                    </StackPanel>
-                </StackPanel>
+                
             </GroupBox>
         </Grid>
     </Border>
