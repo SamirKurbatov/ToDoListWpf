@@ -19,6 +19,16 @@ namespace ToDoList.Data
             Notes = new()
             {
                 new Note("Default", PriorityItems.FirstOrDefault()),
+                    new Note("Default", PriorityItems.FirstOrDefault()),
+                        new Note("Default", PriorityItems.FirstOrDefault()),
+                            new Note("Default", PriorityItems.FirstOrDefault()),
+                                new Note("Default", PriorityItems.FirstOrDefault()),
+                                    new Note("Default", PriorityItems.FirstOrDefault()),
+                                        new Note("Default", PriorityItems.FirstOrDefault()),
+                                            new Note("Default", PriorityItems.FirstOrDefault()),
+                                new Note("Default", PriorityItems.FirstOrDefault()),
+                                new Note("Default", PriorityItems.FirstOrDefault()),
+                                new Note("Default", PriorityItems.FirstOrDefault()),
                 new Note("Default", PriorityItems.Skip(1).FirstOrDefault()),
                 new Note("Default", PriorityItems.Skip(2).FirstOrDefault()),
             };

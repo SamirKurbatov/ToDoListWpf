@@ -6,12 +6,11 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:ToDoList"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
-        d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
+        d:DataContext="{d:DesignInstance Type=local:MainViewModel, IsDesignTimeCreatable=True}"
         mc:Ignorable="d"
         Title="Заголовок окна" 
         MinHeight="550" MinWidth="600" Height="650" Width="850" 
-        Style="{DynamicResource WindowStyle}"
-        >
+        Style="{DynamicResource WindowStyle}">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadDataCommand}"/>
@@ -21,31 +20,32 @@
     <!--Resources-->
     <Window.Resources>
         <!--NoteDataTemplate-->
-        <DataTemplate x:Key="noteDataTemplate">
+        <DataTemplate x:Key="noteDataTemplate" DataType="local:Note">
             <Border Margin="2">
                 <Grid Margin="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-
-                    <Border BorderBrush="Gray" BorderThickness="1">
-                        <StackPanel Grid.Column="0" Margin="5" >
-                            <TextBlock FontSize="12" FontWeight="Bold" Text="Title"/>
-                            <TextBlock FontSize="18" Text="{Binding Path=Title}"/>
-                            <TextBlock FontSize="12" FontWeight="Bold" Text="CreatedDate"/>
-                            <TextBlock FontSize="18" Text="{Binding Path=Date}"/>
-                            <TextBlock FontSize="12" FontWeight="Bold" Text="Priority"/>
-                            <TextBlock FontSize="18" Text="{Binding Path=Priority}"/>
-                        </StackPanel>
-                    </Border>
+                    <StackPanel >
+                        <TextBlock FontSize="18" 
+                                       Text="{Binding Path=Title, StringFormat=Название: {0}}"/>
+                        <TextBlock FontSize="18" 
+                                       Text="{Binding Path=Date, 
+                                                      StringFormat=Дата создания: {0}, ConverterCulture=ru-RU}"/>
+                        <TextBlock FontSize="18" 
+                                       Text="{Binding Path=Priority, StringFormat=Приоритет: {0}}"/>
+                    </StackPanel>
+                    <Button Content="X" 
+                            Padding="3 0"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Right" 
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Foreground="OrangeRed"
+                            FontWeight="ExtraBold"
+                            Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
+                            CommandParameter="{Binding}"/>
                 </Grid>
             </Border>
         </DataTemplate>
+        <!--CategoryNoteDataTemplate-->
         <DataTemplate x:Key="categoryNoteDataTemplate">
             <StackPanel Orientation="Vertical">
                 <TextBlock FontSize="16" Text="{Binding Path=Name}"/>
@@ -53,6 +53,7 @@
             </StackPanel>
         </DataTemplate>
     </Window.Resources>
+
     <Border Padding="0 10 10 10">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -75,63 +76,66 @@
                     <RowDefinition Height="Auto" MaxHeight="250"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Button Style="{StaticResource addNoteButtonStyle}"
-                        HorizontalAlignment="Right"
-                        Content="Добавить" 
-                        Command="{Binding ShowAddWindowCommand}">
-                    
-                </Button>
+
                 <!--NoteGroupBox-->
-                <GroupBox Grid.Column="2" 
+                <GroupBox
                       BorderThickness="2" 
                       Margin="2 0"
-                           Grid.Row="1"
+                      Grid.Row="1"
                       Style="{DynamicResource ComboBoxHeaderStyle}">
                     <GroupBox.Header>
                         <Label Style="{DynamicResource HeaderLabelStyle}" Content="Задачи"/>
                     </GroupBox.Header>
 
-                    <Grid >
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="30" MinHeight="20"/>
-                            <RowDefinition/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <!--NotesFilter-->
+                    <DockPanel>
+                        <!--Buttons-->
+                        <UniformGrid DockPanel.Dock="Bottom" Rows="1" HorizontalAlignment="Right" Margin="5">
+                            <Button Style="{StaticResource addNoteButtonStyle}"
+                                    Content="Добавить" 
+                                    Command="{Binding ShowAddWindowCommand}"/>
+                            <Button 
+                                    Style="{StaticResource manageNoteButtonStyle}" 
+                                    Content="Редактировать"
+                                    x:Name="editButton" 
+                                    Command="{Binding ShowEditWindowCommand}"
+                                    CommandParameter=""/>
+                            <Button
+                                    Style="{StaticResource manageNoteButtonStyle}"
+                                    Content="Удалить" 
+                                    x:Name="removeButton"
+                                    Command="{Binding RemoveCommand}" 
+                                    CommandParameter="{Binding SelectedNote}"/>
 
-                        <StackPanel Grid.Row="0" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Right">
-                            <TextBlock Text="Фильтровать по: "/>
-                            <Button FontSize="10" Padding="2">
-                                <fa:FontAwesome Icon="Filter"/>
-                                <Button.ContextMenu>
-                                    <ContextMenu>
-                                        <MenuItem Command="{Binding OrderByPriorityCommand}">
-                                            <MenuItem.Header>Приоритету</MenuItem.Header>
-                                            <MenuItem.Icon>
-                                                <fa:FontAwesome Icon="LineChart"/>
-                                            </MenuItem.Icon>
-                                        </MenuItem>
-                                        <MenuItem Command="{Binding OrderByDateCommand}">
-                                            <MenuItem.Header>Дате</MenuItem.Header>
-                                            <MenuItem.Icon>
-                                                <fa:FontAwesome Icon="CalendarTimesOutline"/>
-                                            </MenuItem.Icon>
-                                        </MenuItem>
-                                        <MenuItem Command="{Binding OrderByTitleCommand}">
-                                            <MenuItem.Header>Названию</MenuItem.Header>
-                                            <MenuItem.Icon>
-                                                <fa:FontAwesome Icon="FileText"/>
-                                            </MenuItem.Icon>
-                                        </MenuItem>
-                                    </ContextMenu>
-                                </Button.ContextMenu>
-                            </Button>
-                        </StackPanel>
+                        </UniformGrid>
+                        <!--NotesFilter-->
+                        <!--<TextBlock Text="Фильтровать по: "/>
+                                <Button FontSize="10" Padding="2">
+                                    <fa:FontAwesome Icon="Filter"/>
+                                    <Button.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Command="{Binding OrderByPriorityCommand}">
+                                                <MenuItem.Header>Приоритету</MenuItem.Header>
+                                                <MenuItem.Icon>
+                                                    <fa:FontAwesome Icon="LineChart"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                            <MenuItem Command="{Binding OrderByDateCommand}">
+                                                <MenuItem.Header>Дате</MenuItem.Header>
+                                                <MenuItem.Icon>
+                                                    <fa:FontAwesome Icon="CalendarTimesOutline"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                            <MenuItem Command="{Binding OrderByTitleCommand}">
+                                                <MenuItem.Header>Названию</MenuItem.Header>
+                                                <MenuItem.Icon>
+                                                    <fa:FontAwesome Icon="FileText"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                        </ContextMenu>
+                                    </Button.ContextMenu>
+                                </Button>-->
                         <!--Notes-->
-                        <Border BorderThickness="1"
-                                BorderBrush="LightGray"
-                                 Grid.Row="1">
-                            <ListView x:Name="noteListView" 
+                        <ListView x:Name="noteListView" 
                                       ItemsSource="{Binding Notes}" 
                                       SelectedItem="{Binding SelectedNote}" 
                                       Height="Auto" Style="{DynamicResource ListViewBackGroundColor}"
@@ -139,34 +143,13 @@
                                       ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                                       VirtualizingStackPanel.ScrollUnit="Pixel"
                                       HorizontalAlignment="Center">
-                                <ListView.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <WrapPanel/>
-                                    </ItemsPanelTemplate>
-                                </ListView.ItemsPanel>
-                            </ListView>
-                        </Border>
-                        <!--Buttons-->
-                        <Grid Grid.Row="2">
-                            <WrapPanel VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0 10 0 0">
-                                <Button
-                                    Style="{StaticResource manageNoteButtonStyle}"
-                                    Content="Удалить" 
-                                    x:Name="removeButton"
-                                    HorizontalAlignment="Right" 
-                                    Command="{Binding RemoveCommand}" 
-                                    CommandParameter="{Binding SelectedNote}"/>
-                                <Button 
-                                    Style="{StaticResource manageNoteButtonStyle}" 
-                                    Content="Редактировать"
-                                    x:Name="editButton" 
-                                    HorizontalAlignment="Right" 
-                                    Command="{Binding ShowEditWindowCommand}"
-                                    CommandParameter=""/>
-                                
-                            </WrapPanel>
-                        </Grid>
-                    </Grid>
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                        </ListView>
+                    </DockPanel>
                 </GroupBox>
             </Grid>
         </Grid>
