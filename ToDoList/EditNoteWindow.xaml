@@ -4,15 +4,52 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoList"
-        d:DataContext="{d:DesignInstance Type=local:EditViewModel}"
         mc:Ignorable="d"
-        Title="EditNoteWindow" Height="384" Width="233" Style="{DynamicResource WindowStyle}">
-    <Border Padding="10">
-        <Grid>
-            <GroupBox>
+        Title="EditNoteWindow" Height="384" Width="400" Style="{DynamicResource WindowStyle}"
+        d:DataContext="{d:DesignInstance Type=local:EditViewModel, IsDesignTimeCreatable=True}">
+    <Border>
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Top" Margin="5">
+                <TextBlock Text="Задача" FontSize="26"/>
+                <Separator Background="Green"/>
+            </StackPanel>
+            <UniformGrid DockPanel.Dock="Bottom" Rows="1" Margin="15" HorizontalAlignment="Right">
+                <Button Style="{StaticResource addNoteButtonStyle}" Content="Применить" IsDefault="True"/>
+                <Button Style="{StaticResource BaseButtonStyle}" Content="Вернуть"/>
+                <Button Style="{StaticResource cancelNoteButtonStyle}" Content="Отменить"/>
+            </UniformGrid>
+            <Grid Margin="5">
+                <Grid.Resources>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <Trigger Property="Grid.Column" Value="0">
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                                <Setter Property="Margin" Value="0 5"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                    <Style TargetType="TextBox">
+                        <Setter Property="Margin" Value="0 5"/>
+                    </Style>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
 
-            </GroupBox>
-        </Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Название задачи: " Grid.Row="0" Grid.Column="0"></TextBlock>
+                <TextBox Text="Задача" Grid.Column="1" Grid.Row="0"/>
+                <TextBlock Text="Приоритет задачи: " Grid.Row="1" Grid.Column="0" ></TextBlock>
+                <ComboBox Text="Задача" Grid.Column="1" Grid.Row="1"/>
+
+            </Grid>
+        </DockPanel>
     </Border>
 
 </Window>

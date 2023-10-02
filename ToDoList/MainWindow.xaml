@@ -33,7 +33,7 @@
                         <TextBlock FontSize="18" 
                                        Text="{Binding Path=Priority, StringFormat=Приоритет: {0}}"/>
                     </StackPanel>
-                    <Button Content="X" 
+                    <!--<Button Content="X" 
                             Padding="3 0"
                             VerticalAlignment="Top"
                             HorizontalAlignment="Right" 
@@ -43,7 +43,7 @@
                             FontWeight="ExtraBold"
                             Command="{Binding DataContext.RemoveCommand, 
                             RelativeSource={RelativeSource AncestorType= ListView}}"
-                            CommandParameter="{Binding}"/>
+                            CommandParameter="{Binding}"/>-->
                 </Grid>
             </Border>
         </DataTemplate>

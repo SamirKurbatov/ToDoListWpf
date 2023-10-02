@@ -17,10 +17,6 @@ public class MainViewModel : ViewModel
 {
     private IUserDialog userDialog;
 
-    public MainViewModel()
-    {
-
-    }
 
     public MainViewModel(IUserDialog userDialog)
     {
@@ -71,11 +67,13 @@ public class MainViewModel : ViewModel
 
     private ICommand removeCommand;
     public ICommand RemoveCommand
-            => removeCommand ??= new LambdaCommand(OnRemove);
+            => removeCommand ??= new LambdaCommand(OnRemove, CanRemove);
     public void OnRemove(object p)
     {
         Notes.Remove(SelectedNote);
     }
+
+    public bool CanRemove(object p) => p is Note && SelectedNote != null;
 
 
     private ICommand addCommand;
