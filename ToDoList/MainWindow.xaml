@@ -3,11 +3,21 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:ToDoList"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
         mc:Ignorable="d"
-        Title="MainWindow" MinHeight="550" MinWidth="600" Height="650" Width="850" Style="{DynamicResource WindowStyle}">
+        Title="Заголовок окна" 
+        MinHeight="550" MinWidth="600" Height="650" Width="850" 
+        Style="{DynamicResource WindowStyle}"
+        >
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadDataCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
     <!--Resources-->
     <Window.Resources>
         <!--NoteDataTemplate-->
@@ -68,7 +78,7 @@
                 <Button Style="{StaticResource addNoteButtonStyle}"
                         HorizontalAlignment="Right"
                         Content="Добавить" 
-                        Command="{Binding ShowWindowCommand}">
+                        Command="{Binding ShowAddWindowCommand}">
                     
                 </Button>
                 <!--NoteGroupBox-->
@@ -81,13 +91,14 @@
                         <Label Style="{DynamicResource HeaderLabelStyle}" Content="Задачи"/>
                     </GroupBox.Header>
 
-                    <Grid ShowGridLines="True">
+                    <Grid >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30" MinHeight="20"/>
                             <RowDefinition/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <!--NotesFilter-->
+
                         <StackPanel Grid.Row="0" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Right">
                             <TextBlock Text="Фильтровать по: "/>
                             <Button FontSize="10" Padding="2">
@@ -116,40 +127,43 @@
                                 </Button.ContextMenu>
                             </Button>
                         </StackPanel>
-
                         <!--Notes-->
-                        <ListView x:Name="noteListView" 
-                              Grid.Row="1"
-                              ItemsSource="{Binding Notes}" 
-                              SelectedItem="{Binding SelectedNote}" 
-                              Height="Auto" Style="{DynamicResource ListViewBackGroundColor}"
-                              ItemTemplate="{StaticResource noteDataTemplate}" 
-                              ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                              VirtualizingStackPanel.ScrollUnit="Pixel"
-                              HorizontalAlignment="Center">
-                            <ListView.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapPanel/>
-                                </ItemsPanelTemplate>
-                            </ListView.ItemsPanel>
-                        </ListView>
+                        <Border BorderThickness="1"
+                                BorderBrush="LightGray"
+                                 Grid.Row="1">
+                            <ListView x:Name="noteListView" 
+                                      ItemsSource="{Binding Notes}" 
+                                      SelectedItem="{Binding SelectedNote}" 
+                                      Height="Auto" Style="{DynamicResource ListViewBackGroundColor}"
+                                      ItemTemplate="{StaticResource noteDataTemplate}" 
+                                      ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                                      VirtualizingStackPanel.ScrollUnit="Pixel"
+                                      HorizontalAlignment="Center">
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel/>
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+                            </ListView>
+                        </Border>
                         <!--Buttons-->
                         <Grid Grid.Row="2">
                             <WrapPanel VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0 10 0 0">
                                 <Button
-                                Style="{StaticResource manageNoteButtonStyle}"
-                                Content="Удалить" 
-                                x:Name="removeButton"
-                                HorizontalAlignment="Right" 
-                                Command="{Binding RemoveCommand}" 
-                                CommandParameter="{Binding SelectedNote}">
-                                </Button>
+                                    Style="{StaticResource manageNoteButtonStyle}"
+                                    Content="Удалить" 
+                                    x:Name="removeButton"
+                                    HorizontalAlignment="Right" 
+                                    Command="{Binding RemoveCommand}" 
+                                    CommandParameter="{Binding SelectedNote}"/>
                                 <Button 
-                                Style="{StaticResource manageNoteButtonStyle}" 
-                                Content="Редактировать"
-                                x:Name="editButton" 
-                                HorizontalAlignment="Right" Command="{Binding ShowWindowCommand}"/>
-
+                                    Style="{StaticResource manageNoteButtonStyle}" 
+                                    Content="Редактировать"
+                                    x:Name="editButton" 
+                                    HorizontalAlignment="Right" 
+                                    Command="{Binding ShowEditWindowCommand}"
+                                    CommandParameter=""/>
+                                
                             </WrapPanel>
                         </Grid>
                     </Grid>

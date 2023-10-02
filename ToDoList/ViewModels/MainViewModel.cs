@@ -1,11 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using ToDoList.BL;
+using System.Windows.Input;
+using ToDoList.Data;
 using ToDoList.Domain;
+using ToDoList.Infrastructure.Comparers;
 
 namespace ToDoList;
 
@@ -15,15 +16,24 @@ public partial class MainViewModel : ObservableObject
     private ObservableCollection<Note> notes;
 
     [ObservableProperty]
+    private ObservableCollection<PriorityItem> priorityItems;
+
+    [ObservableProperty]
     private Note selectedNote;
 
-    public MainViewModel()
+    private ICommand loadDataCommand;
+    public ICommand LoadDataCommand
+        => loadDataCommand ??= new RelayCommand(OnLoadData, CanLoadDataCommandExecute);
+
+    public void OnLoadData()
     {
-        notes = new();
-        WeakReferenceMessenger.Default.Register<Note>(this, (r, m) =>
-        {
-            Notes.Add(m);
-        });
+        Notes = new ObservableCollection<Note>(TodoData.Notes);
+        PriorityItems = new ObservableCollection<PriorityItem>(TodoData.PriorityItems);
+    }
+
+    private bool CanLoadDataCommandExecute()
+    {
+        return true;
     }
 
     [RelayCommand]
@@ -40,14 +50,20 @@ public partial class MainViewModel : ObservableObject
     }
 
     [RelayCommand]
-    public void ShowWindow(object obj) // Добавить CommandParametr
+    public void ShowAddWindow()
     {
-        var mainWindow = obj as Window;
+        var addNoteWindow = new AddNoteWindow();
+        addNoteWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+        addNoteWindow.ShowDialog();
+    }
 
-        var addUserWindow = new AddNoteWindow();
-        addUserWindow.Owner = mainWindow;
-        addUserWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-        addUserWindow.ShowDialog();
+    [RelayCommand]
+    public void ShowEditWindow()
+    {
+        var editNote = new EditNoteWindow();
+        editNote.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+        editNote.ShowDialog();
+
     }
 
     [RelayCommand]

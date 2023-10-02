@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ToDoList.BL
+namespace ToDoList.Infrastructure.Comparers
 {
     public class PriorityComparer : IComparer<Note>
     {

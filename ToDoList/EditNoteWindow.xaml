@@ -1,0 +1,46 @@
+﻿<Window x:Class="ToDoList.EditNoteWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ToDoList"
+        d:DataContext="{d:DesignInstance Type=local:EditViewModel}"
+        mc:Ignorable="d"
+        Title="EditNoteWindow" Height="450" Width="800" Style="{DynamicResource WindowStyle}">
+    <Border Padding="10">
+        <Grid>
+            <GroupBox>
+                <GroupBox.Header>
+                    <Label Style="{DynamicResource HeaderLabelStyle}" Content="Редактирование задачи"/>
+                </GroupBox.Header>
+                <StackPanel Style="{DynamicResource LightGrayBackGroundColor}">
+                    <StackPanel 
+                        Grid.Column="0" 
+                        VerticalAlignment="Top" >
+                        <Label Style="{DynamicResource HeaderLabelStyle}" Content="Название"/>
+                        <TextBox x:Name="noteTextBox" VerticalContentAlignment="Center"  
+                                 FontSize="16"
+                                 Text="{Binding EditNote.Title}"/>
+                        <Label Style="{DynamicResource HeaderLabelStyle}" Content="Приоритет"/>
+                        
+                        <ComboBox 
+                            SelectedItem="{Binding SelectedPriority}"
+                            ItemsSource="{Binding PriorityData.PriorityOptions}">
+                        </ComboBox>
+                       
+                        <WrapPanel HorizontalAlignment="Right">
+                            <Button Style="{DynamicResource addNoteButtonStyle}" 
+                                    Content="Применить"
+                                    Command="{Binding AgreeCommand}"/>
+                            <Button Style="{DynamicResource cancelNoteButtonStyle}" 
+                                    Command="{Binding CancelCommand}"
+                                    CommandParameter="{Binding}"
+                                    Content="Отменить"/>
+                        </WrapPanel>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+        </Grid>
+    </Border>
+    
+</Window>

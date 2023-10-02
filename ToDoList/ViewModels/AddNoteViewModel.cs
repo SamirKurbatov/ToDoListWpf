@@ -17,12 +17,7 @@ public partial class AddNoteViewModel : ObservableObject
 
     public PriorityItem SelectedPriority { set; get; }
 
-    public ObservableCollection<PriorityItem> PriorityOptions { get; set; } = new()
-    {
-        new PriorityItem(ePriorityType.Low),
-        new PriorityItem(ePriorityType.Medium),
-        new PriorityItem(ePriorityType.High)
-    };
+    public PriorityData PriorityData { set; get; } = new();
 
     #endregion
 
@@ -32,12 +27,18 @@ public partial class AddNoteViewModel : ObservableObject
         var title = mainNote.Title;
         var priority = SelectedPriority;
         if (!string.IsNullOrWhiteSpace(title) && SelectedPriority is not null)
-        {
             WeakReferenceMessenger.Default.Send(new Note(title, priority));
-        }
         else
-        {
             MessageBox.Show("Проверьте значение полей! ");
-        }
     }
+}
+
+public class PriorityData
+{
+    public ObservableCollection<PriorityItem> PriorityOptions { get; } = new()
+    {
+        new PriorityItem(ePriorityType.Low),
+        new PriorityItem(ePriorityType.Medium),
+        new PriorityItem(ePriorityType.High)
+    };
 }

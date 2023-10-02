@@ -36,7 +36,7 @@
                         <Label Content="Приоритет"/>
                         <ComboBox 
                             SelectedItem="{Binding SelectedPriority}"
-                            ItemsSource="{Binding PriorityOptions}">
+                            ItemsSource="{Binding PriorityData.PriorityOptions}">
                         </ComboBox>
                     </StackPanel>
                 </StackPanel>
