@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using ToDoList.Data;
 using System.Windows;
+using ToDoList.Domain;
 
 namespace ToDoList.Infrastructure.Services
 {
@@ -8,14 +9,17 @@ namespace ToDoList.Infrastructure.Services
     {
         private IEnumerable<Note> notes;
 
+        private IEnumerable<PriorityItem> priorityItems;
+
         public AppWindowUserDialogService(/* репозиторий групп */)
         {
             notes = TodoData.Notes;
+            priorityItems = TodoData.PriorityItems;
         }
 
         public bool Edit(Note model)
         {
-            var viewModel = new EditViewModel(model, notes);
+            var viewModel = new EditViewModel(model, notes, priorityItems);
             var view = new EditNoteWindow
             {
                 DataContext = viewModel,

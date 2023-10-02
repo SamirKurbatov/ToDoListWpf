@@ -14,9 +14,9 @@
                 <Separator Background="Green"/>
             </StackPanel>
             <UniformGrid DockPanel.Dock="Bottom" Rows="1" Margin="15" HorizontalAlignment="Right">
-                <Button Style="{StaticResource addNoteButtonStyle}" Content="Применить" IsDefault="True"/>
-                <Button Style="{StaticResource BaseButtonStyle}" Content="Вернуть"/>
-                <Button Style="{StaticResource cancelNoteButtonStyle}" Content="Отменить"/>
+                <Button Style="{StaticResource addNoteButtonStyle}" Content="Применить" IsDefault="True" Command="{Binding CommitCommand}"/>
+                <Button Style="{StaticResource BaseButtonStyle}" Content="Вернуть" Command="{Binding RegectCommand}"/>
+                <Button Style="{StaticResource cancelNoteButtonStyle}" Content="Отменить" Command="{Binding CancelCommand}" IsCancel="True"/>
             </UniformGrid>
             <Grid Margin="5">
                 <Grid.Resources>
@@ -44,9 +44,9 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock Text="Название задачи: " Grid.Row="0" Grid.Column="0"></TextBlock>
-                <TextBox Text="Задача" Grid.Column="1" Grid.Row="0"/>
+                <TextBox Text="{Binding Title}" Grid.Column="1" Grid.Row="0"/>
                 <TextBlock Text="Приоритет задачи: " Grid.Row="1" Grid.Column="0" ></TextBlock>
-                <ComboBox Text="Задача" Grid.Column="1" Grid.Row="1"/>
+                <ComboBox Text="Задача" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding PriorityItems}" SelectedItem="{Binding Priority}"/>
 
             </Grid>
         </DockPanel>
