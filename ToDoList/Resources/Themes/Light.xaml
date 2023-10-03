@@ -15,6 +15,11 @@
         <Setter Property="Margin" Value="0 0 0 12"/>
     </Style>
 
+    <Style x:Key="TextBlockDarkTheme" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="Margin" Value="0 0 0 12"/>
+    </Style>
+
     <Style x:Key="StackPanelBackGroundColor" TargetType="StackPanel">
         <Setter Property="Background" Value ="White" />
     </Style>
@@ -22,5 +27,6 @@
     <Style x:Key="ListViewBackGroundColor" TargetType="ListView">
         <Setter Property="Background" Value="White"/>
     </Style>
+
 
 </ResourceDictionary>

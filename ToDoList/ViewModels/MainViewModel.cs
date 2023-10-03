@@ -17,7 +17,6 @@ public class MainViewModel : ViewModel
 {
     private IUserDialog userDialog;
 
-
     public MainViewModel(IUserDialog userDialog)
     {
         this.userDialog = userDialog;

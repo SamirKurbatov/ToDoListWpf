@@ -8,7 +8,7 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         DataContext="{Binding MainModel, Source={StaticResource Locator}}"
         mc:Ignorable="d"
-        Title="Заголовок окна" 
+        Title="ТудуЛист" 
         MinHeight="550" MinWidth="600" Height="650" Width="850" 
         Style="{DynamicResource WindowStyle}">
     <i:Interaction.Triggers>
@@ -31,7 +31,7 @@
                                        Text="{Binding Path=Date, 
                                                       StringFormat=Дата создания: {0}, ConverterCulture=ru-RU}"/>
                         <TextBlock FontSize="18" 
-                                       Text="{Binding Path=PriorityItem, StringFormat=Приоритет: {0}}"/>
+                                       Text="{Binding Path=PriorityItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=Приоритет: {0}}"/>
                     </StackPanel>
                     <!--<Button Content="X" 
                             Padding="3 0"
