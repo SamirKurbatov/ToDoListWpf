@@ -11,7 +11,8 @@
         mc:Ignorable="d"
         Title="AddNoteWindow" Height="384" Width="400">
     <Border Padding="5">
-        <DockPanel>
+        <Border Style="{DynamicResource borderTheme}">
+            <DockPanel>
             <StackPanel DockPanel.Dock="Top" Margin="5">
                 <Label Content="Добавление задачи" FontSize="26" Style="{DynamicResource labelTheme}"/>
                 <Separator Background="DarkBlue"/>
@@ -20,7 +21,6 @@
                 <Button Style="{StaticResource MaterialDesignRaisedSecondaryButton}" Content="Применить" IsDefault="True" Command="{Binding AddCommand}"/>
                 <Button Style="{StaticResource MaterialDesignRaisedSecondaryButton}" Margin="5 0 0 0" Content="Отменить" Command="{Binding CancelCommand}" IsCancel="True"/>
             </UniformGrid>
-            <Border Style="{DynamicResource borderTheme}">
                 <Grid Margin="5">
                     <Grid.Resources>
                         <Style TargetType="TextBlock">
@@ -45,25 +45,22 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                             FontSize="15"
+                    <TextBox Style="{DynamicResource textBoxTheme}" 
                              md:HintAssist.Hint="Название задачи"
                              md:HintAssist.FloatingOffset="0 -15"
-                             BorderThickness="0 0 0 1.5"
                              Text="{Binding Title}" 
                              Grid.Column="1" 
                              Grid.Row="0"/>
-                    <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                    <ComboBox Style="{StaticResource comboBoxTheme}"
                               md:HintAssist.Hint="Приоритет задачи"
                               md:HintAssist.FloatingOffset="0 -15"
-                              BorderThickness="0 0 0 1.5"
-                              FontSize="15"
+                              HorizontalContentAlignment="Left"
                               Grid.Column="1" 
                               Grid.Row="1" 
                               ItemsSource="{Binding PriorityItems}" 
                               SelectedItem="{Binding PriorityItem}"/>
                 </Grid>
-            </Border>
         </DockPanel>
+        </Border>
     </Border>
 </Window>
