@@ -159,8 +159,8 @@
                                       SelectedItem="{Binding SelectedNote}" 
                                       Height="Auto"
                                       ItemTemplate="{StaticResource noteDataTemplate}" 
-                                      ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                      ScrollViewer.VerticalScrollBarVisibility="Hidden"
                                       VirtualizingStackPanel.ScrollUnit="Pixel"
                                       HorizontalAlignment="Center">
                                 <ListView.ItemsPanel>

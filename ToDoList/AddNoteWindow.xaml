@@ -6,54 +6,64 @@
         xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:ToDoList"
         d:DataContext="{d:DesignInstance Type=local:AddNoteViewModel}"
-        Style="{DynamicResource WindowStyle}"
+        ResizeMode="NoResize"
+        Style="{DynamicResource mainTheme}"
         mc:Ignorable="d"
         Title="AddNoteWindow" Height="384" Width="400">
     <Border Padding="5">
         <DockPanel>
             <StackPanel DockPanel.Dock="Top" Margin="5">
-                <TextBlock Text="Добавление задачи" FontSize="26" Style="{DynamicResource TextBlockDarkTheme}"/>
-                <Separator Background="Green"/>
+                <Label Content="Добавление задачи" FontSize="26" Style="{DynamicResource labelTheme}"/>
+                <Separator Background="DarkBlue"/>
             </StackPanel>
             <UniformGrid DockPanel.Dock="Bottom" Rows="1" Margin="15" HorizontalAlignment="Center">
-                <Button Style="{StaticResource addNoteButtonStyle}" Content="Применить" IsDefault="True" Command="{Binding AddCommand}"/>
-                <Button Style="{StaticResource cancelNoteButtonStyle}" Content="Отменить" Command="{Binding CancelCommand}" IsCancel="True"/>
+                <Button Style="{StaticResource MaterialDesignRaisedSecondaryButton}" Content="Применить" IsDefault="True" Command="{Binding AddCommand}"/>
+                <Button Style="{StaticResource MaterialDesignRaisedSecondaryButton}" Margin="5 0 0 0" Content="Отменить" Command="{Binding CancelCommand}" IsCancel="True"/>
             </UniformGrid>
-            <Grid Margin="5">
-                <Grid.Resources>
-                    <Style TargetType="TextBlock">
-                        <Style.Triggers>
-                            <Trigger Property="Grid.Column" Value="0">
-                                <Setter Property="FontWeight" Value="Bold"/>
-                                <Setter Property="HorizontalAlignment" Value="Right"/>
-                                <Setter Property="Margin" Value="0 5"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                    <Style TargetType="TextBox">
-                        <Setter Property="Margin" Value="0 5"/>
-                    </Style>
-                </Grid.Resources>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
+            <Border Style="{DynamicResource borderTheme}">
+                <Grid Margin="5">
+                    <Grid.Resources>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <Trigger Property="Grid.Column" Value="0">
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                                    <Setter Property="Margin" Value="0 5"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Margin" Value="0 5"/>
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
 
-                <TextBlock Text="Название задачи: " Grid.Row="0" Grid.Column="0" Style="{DynamicResource {x:Type md:FadeWipe}}"/>
-                <TextBox Text="{Binding Title}" Grid.Column="1" Grid.Row="0"/>
-                <TextBlock Text="Приоритет задачи: " Grid.Row="1" Grid.Column="0" Style="{DynamicResource TextBlockDarkTheme}"/>
-                <ComboBox Text="Задача" 
-                          Grid.Column="1" 
-                          FontSize="10"
-                          Grid.Row="1" 
-                          ItemsSource="{Binding PriorityItems}" 
-                          SelectedItem="{Binding PriorityItem}"/>
-            </Grid>
+                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                             FontSize="15"
+                             md:HintAssist.Hint="Название задачи"
+                             md:HintAssist.FloatingOffset="0 -15"
+                             BorderThickness="0 0 0 1.5"
+                             Text="{Binding Title}" 
+                             Grid.Column="1" 
+                             Grid.Row="0"/>
+                    <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                              md:HintAssist.Hint="Приоритет задачи"
+                              md:HintAssist.FloatingOffset="0 -15"
+                              BorderThickness="0 0 0 1.5"
+                              FontSize="15"
+                              Grid.Column="1" 
+                              Grid.Row="1" 
+                              ItemsSource="{Binding PriorityItems}" 
+                              SelectedItem="{Binding PriorityItem}"/>
+                </Grid>
+            </Border>
         </DockPanel>
     </Border>
 </Window>
