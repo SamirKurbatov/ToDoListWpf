@@ -80,9 +80,9 @@ public class MainViewModel : ViewModel
             => addCommand ??= new LambdaCommand(OnAdd);
     public void OnAdd(object p)
     {
-        var addNoteWindow = new AddNoteWindow();
-        addNoteWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-        addNoteWindow.ShowDialog();
+        if (userDialog.CanAdd(Notes))
+        {
+        }
     }
 
     private ICommand editCommand;
@@ -92,7 +92,7 @@ public class MainViewModel : ViewModel
     public void OnEdit(object p)
     {
         var note = (Note)p;
-        if (userDialog.Edit(note))
+        if (userDialog.CanEdit(note))
         {
             // Сохранить note в бд
             // Обновить состояние интерфейса

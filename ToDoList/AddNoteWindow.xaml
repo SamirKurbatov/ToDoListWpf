@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoList"
+        d:DataContext="{d:DesignInstance Type=local:AddNoteViewModel}"
         Style="{DynamicResource WindowStyle}"
         mc:Ignorable="d"
         Title="AddNoteWindow" Height="384" Width="400">
@@ -14,7 +15,7 @@
                 <Separator Background="Green"/>
             </StackPanel>
             <UniformGrid DockPanel.Dock="Bottom" Rows="1" Margin="15" HorizontalAlignment="Center">
-                <Button Style="{StaticResource addNoteButtonStyle}" Content="Применить" IsDefault="True" Command="{Binding CommitCommand}"/>
+                <Button Style="{StaticResource addNoteButtonStyle}" Content="Применить" IsDefault="True" Command="{Binding AddCommand}"/>
                 <Button Style="{StaticResource cancelNoteButtonStyle}" Content="Отменить" Command="{Binding CancelCommand}" IsCancel="True"/>
             </UniformGrid>
             <Grid Margin="5">

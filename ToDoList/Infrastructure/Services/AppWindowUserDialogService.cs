@@ -2,6 +2,8 @@
 using ToDoList.Data;
 using System.Windows;
 using ToDoList.Domain;
+using System.Linq;
+using System.Collections.ObjectModel;
 
 namespace ToDoList.Infrastructure.Services
 {
@@ -17,7 +19,7 @@ namespace ToDoList.Infrastructure.Services
             priorityItems = TodoData.PriorityItems;
         }
 
-        public bool Edit(Note model)
+        public bool CanEdit(Note model)
         {
             var viewModel = new EditViewModel(model, notes, priorityItems);
             var view = new EditNoteWindow
@@ -32,6 +34,28 @@ namespace ToDoList.Infrastructure.Services
                 view.DialogResult = e.Arg;
                 view.Close();
             };
+            return view.ShowDialog() ?? false;
+        }
+
+
+        public bool CanAdd(ICollection<Note> notes)
+        {
+            var viewModel = new AddNoteViewModel(notes, priorityItems);
+
+            var view = new AddNoteWindow()
+            {
+                DataContext = viewModel,
+                Owner = App.CurrentWindow,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner
+            };
+
+            viewModel.Complete += (s, e)
+                =>
+            {
+                view.DialogResult = e.Arg;
+                view.Close();
+            };
+
             return view.ShowDialog() ?? false;
         }
     }
