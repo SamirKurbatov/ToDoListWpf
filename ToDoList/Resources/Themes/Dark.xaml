@@ -2,33 +2,27 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:ToDoList">
 
-    <Style x:Key="WindowStyle" TargetType="Window">
-        <Setter Property="Background" Value="#3D3D3D"/>
+    <Style x:Key="mainTheme" TargetType="Window">
+        <Setter Property="Background" Value="#171717"/>
+        <Setter Property="FontFamily" Value="{DynamicResource MaterialDesignFont}"/>
+        <Setter Property="FontSize" Value="20"/>
     </Style>
 
-    <Style x:Key="ComboBoxHeaderStyle" TargetType="GroupBox">
-        <Setter Property="Background" Value="LightGray"/>
-        <Setter Property="BorderBrush" Value="Black"/>
-        <Setter Property="Margin" Value="0"/>
+    <Style x:Key="borderTheme" TargetType="Border">
+        <Setter Property="BorderThickness" Value="5"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesignDarkBackground}"/>
+        <Setter Property="Background" Value="{DynamicResource MaterialDesignDarkBackground}"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="Margin" Value="5"/>
     </Style>
 
-    <Style x:Key="HeaderLabelStyle" TargetType="Label">
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="Margin" Value="0 0 0 12"/>
+    <Style x:Key="textBlockTheme" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource MaterialDesignDarkForeground}"/>
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="Margin" Value="0 5"/>
     </Style>
 
-    <Style x:Key="TextBlockDarkTheme" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="Margin" Value="0 0 0 12"/>
+    <Style x:Key="labelTheme" TargetType="Label">
+        <Setter Property="Foreground" Value="{DynamicResource MaterialDesignDarkForeground}"/>
     </Style>
-    
-
-    <Style x:Key="StackPanelBackGroundColor" TargetType="StackPanel">
-        <Setter Property="Background" Value="LightGray"/>
-    </Style>
-
-    <Style x:Key="ListViewBackGroundColor" TargetType="ListView">
-        <Setter Property="Background" Value="LightGray"/>
-    </Style>
-    
 </ResourceDictionary>
