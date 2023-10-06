@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace ToDoList.Domain
+namespace ToDoList
 {
     public class Group : INotifyPropertyChanged
     {

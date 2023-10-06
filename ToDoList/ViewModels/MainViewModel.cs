@@ -22,16 +22,23 @@ public class MainViewModel : ViewModel
         this.userDialog = userDialog;
     }
 
-    private ObservableCollection<Note> notes;
+    #region Properties
 
+    private ObservableCollection<Note> notes;
     public ObservableCollection<Note> Notes
     {
         get => notes;
         set => Set(ref notes, value);
     }
 
-    private ObservableCollection<PriorityItem> priorityItems;
+    private ObservableCollection<Group> groups;
+    public ObservableCollection<Group> Groups
+    {
+        get => groups;
+        set => Set(ref groups, value);
+    }
 
+    private ObservableCollection<PriorityItem> priorityItems;
     public ObservableCollection<PriorityItem> PriorityItems
     {
         get => priorityItems;
@@ -45,6 +52,7 @@ public class MainViewModel : ViewModel
         get => selectedNote;
         set => Set(ref selectedNote, value);
     }
+    #endregion
 
     #region Commands
 
@@ -56,6 +64,7 @@ public class MainViewModel : ViewModel
     public void OnLoadData() {
         Notes = new ObservableCollection<Note>(TodoData.Notes);
         PriorityItems = new ObservableCollection<PriorityItem>(TodoData.PriorityItems);
+        Groups = new ObservableCollection<Group>(TodoData.GroupNotes);
     }
 
    

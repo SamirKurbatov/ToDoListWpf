@@ -61,7 +61,7 @@
         </DataTemplate>
 
         <!--CategoryNoteDataTemplate-->
-        <DataTemplate x:Key="categoryNoteDataTemplate">
+        <DataTemplate x:Key="categoryNoteDataTemplate" DataType="local:Group">
             <StackPanel Orientation="Vertical">
                 <TextBlock
                     Style="{DynamicResource textBlockTheme}"
@@ -107,7 +107,8 @@
                             Style="{DynamicResource labelTheme}" 
                             Content="Группы"/>
                         <ListView Background="Transparent"
-                                  ItemTemplate="{StaticResource categoryNoteDataTemplate}"/>
+                                  ItemTemplate="{StaticResource categoryNoteDataTemplate}"
+                                  ItemsSource="{Binding Groups}"/>
                     </DockPanel>
                     <ComboBox Style="{DynamicResource comboBoxTheme}" 
                               x:Name="styleBox" 
