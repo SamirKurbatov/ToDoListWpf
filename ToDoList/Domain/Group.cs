@@ -17,16 +17,16 @@ namespace ToDoList
             }
         }
 
-        private int noteCount;
-        public int NoteCount
+        private int notesCount;
+        public int NotesCount
         {
-            get => noteCount;
+            get => notesCount;
             set
             {
-                noteCount = Notes.Count;
+                notesCount = value;
                 OnPropertyChanged();
             }
-        }
+        } 
 
         public List<Note> Notes { get; set; }
 
@@ -34,6 +34,7 @@ namespace ToDoList
         {
             Name = name;
             Notes = notes;
+            notesCount = notes.Count;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

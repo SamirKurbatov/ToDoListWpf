@@ -66,11 +66,13 @@
                 <TextBlock
                     Style="{DynamicResource textBlockTheme}"
                     FontSize="16" 
-                    Text="{Binding Path=Name, StringFormat=Название: {0}}"/>
+                    Text="{Binding Path=Name, StringFormat=Название: {0}}"
+                    TextWrapping="Wrap"/>
                 <TextBlock 
                     Style="{DynamicResource textBlockTheme}"
                     FontSize="16" 
-                    Text="{Binding Path=NoteCount, StringFormat=Количество задач: {1}}"/>
+                    Text="{Binding Path=NotesCount, StringFormat=Количество задач: {0}}"
+                    TextWrapping="Wrap"/>
             </StackPanel>
         </DataTemplate>
     </Window.Resources>
@@ -108,7 +110,8 @@
                             Content="Группы"/>
                         <ListView Background="Transparent"
                                   ItemTemplate="{StaticResource categoryNoteDataTemplate}"
-                                  ItemsSource="{Binding Groups}"/>
+                                  ItemsSource="{Binding Groups}"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
                     </DockPanel>
                     <ComboBox Style="{DynamicResource comboBoxTheme}" 
                               x:Name="styleBox" 
