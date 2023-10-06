@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace ToDoList.Domain
@@ -22,14 +23,17 @@ namespace ToDoList.Domain
             get => noteCount;
             set
             {
-                noteCount = value;
+                noteCount = Notes.Count;
                 OnPropertyChanged();
             }
         }
 
-        public Group(string name)
+        public List<Note> Notes { get; set; }
+
+        public Group(string name, List<Note> notes)
         {
             Name = name;
+            Notes = notes;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
