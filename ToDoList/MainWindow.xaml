@@ -63,8 +63,14 @@
         <!--CategoryNoteDataTemplate-->
         <DataTemplate x:Key="categoryNoteDataTemplate">
             <StackPanel Orientation="Vertical">
-                <TextBlock FontSize="16" Text="{Binding Path=Name}"/>
-                <TextBlock FontSize="16" Text="{Binding Path=NoteCount}"/>
+                <TextBlock
+                    Style="{DynamicResource textBlockTheme}"
+                    FontSize="16" 
+                    Text="{Binding Path=Name, StringFormat=Название: {0}}"/>
+                <TextBlock 
+                    Style="{DynamicResource textBlockTheme}"
+                    FontSize="16" 
+                    Text="{Binding Path=NoteCount, StringFormat=Количество задач: {1}}"/>
             </StackPanel>
         </DataTemplate>
     </Window.Resources>
@@ -81,10 +87,31 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
-                        <RowDefinition/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <ComboBox x:Name="styleBox" Grid.Row="2"/>
+                    <!--Notes group-->
+                    <DockPanel Grid.Row="0">
+                        <UniformGrid DockPanel.Dock="Bottom" Rows="1" 
+                                     HorizontalAlignment="Center">
+                            <Button Style="{DynamicResource MaterialDesignRaisedSecondaryButton}" 
+                                    Content="+"/>
+                            <Button Style="{DynamicResource MaterialDesignRaisedSecondaryButton}" 
+                                    Content="E" 
+                                    Margin="5 0"/>
+                            <Button Style="{DynamicResource MaterialDesignRaisedSecondaryButton}" 
+                                    Content="-"/>
+                        </UniformGrid>
+                        <Label 
+                            DockPanel.Dock="Top"
+                            FontSize="28" 
+                            Style="{DynamicResource labelTheme}" 
+                            Content="Группы"/>
+                        <ListView Background="Transparent"
+                                  ItemTemplate="{StaticResource categoryNoteDataTemplate}"/>
+                    </DockPanel>
+                    <ComboBox Style="{DynamicResource comboBoxTheme}" 
+                              x:Name="styleBox" 
+                              Grid.Row="2"/>
                 </Grid>
             </Border>
 

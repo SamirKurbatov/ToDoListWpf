@@ -15,8 +15,9 @@ public class EditViewModel : ViewModel
 {
     public event EventHandler<EventArgs<bool>> Complete;
 
-    #region Propereties
     private readonly Dictionary<string, object> Values = new();
+
+    #region Propereties
 
     private readonly Note note;
 
@@ -36,7 +37,6 @@ public class EditViewModel : ViewModel
         set => SetValue(value);
     }
     #endregion
-
 
     protected virtual bool SetValue(object value, [CallerMemberName] string propName = "")
     {

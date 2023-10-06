@@ -32,6 +32,7 @@
         <Setter Property="Foreground" Value="{DynamicResource MaterialDesignDarkForeground}"/>
         <Setter Property="FontSize" Value="15"/>
         <Setter Property="BorderThickness" Value="0 0 0 1.5"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
     </Style>
 
     <Style x:Key="labelTheme" TargetType="Label">

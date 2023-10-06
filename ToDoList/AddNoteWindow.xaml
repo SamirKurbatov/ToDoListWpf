@@ -54,7 +54,7 @@
                     <ComboBox Style="{StaticResource comboBoxTheme}"
                               md:HintAssist.Hint="Приоритет задачи"
                               md:HintAssist.FloatingOffset="0 -15"
-                              HorizontalContentAlignment="Left"
+                             
                               Grid.Column="1" 
                               Grid.Row="1" 
                               ItemsSource="{Binding PriorityItems}" 
