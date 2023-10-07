@@ -1,14 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Windows;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using ToDoList.Commands;
 using ToDoList.Data;
 using ToDoList.Domain;
-using ToDoList.Infrastructure.Comparers;
 using ToDoList.Infrastructure.Services;
 
 namespace ToDoList;
@@ -46,12 +40,23 @@ public class MainViewModel : ViewModel
     }
 
     private Note selectedNote;
-
     public Note SelectedNote
     {
         get => selectedNote;
         set => Set(ref selectedNote, value);
     }
+
+
+    private Group selectedGroup;
+    public Group SelectedGroup
+    {
+        get => selectedGroup;
+        set
+        {
+            Set(ref selectedGroup, value);
+        }
+    }
+
     #endregion
 
     #region Commands
@@ -59,16 +64,16 @@ public class MainViewModel : ViewModel
     private ICommand loadDataCommand;
 
     public ICommand LoadDataCommand
-            => loadDataCommand ??= new RelayCommand(OnLoadData);
+            => loadDataCommand ??= new LambdaCommand(OnLoadData, CanLoadDataCommandExecute);
 
-    public void OnLoadData() {
+    public void OnLoadData(object n)
+    {
         Notes = new ObservableCollection<Note>(TodoData.Notes);
         PriorityItems = new ObservableCollection<PriorityItem>(TodoData.PriorityItems);
         Groups = new ObservableCollection<Group>(TodoData.GroupNotes);
     }
 
-   
-    private bool CanLoadDataCommandExecute()
+    private bool CanLoadDataCommandExecute(object n)
     {
         return true;
     }
@@ -91,6 +96,12 @@ public class MainViewModel : ViewModel
     {
         if (userDialog.CanAdd(Notes))
         {
+            // Сохранить note в бд
+            // Обновить состояние интерфейса
+        }
+        else
+        {
+            // nothing
         }
     }
 
@@ -134,41 +145,4 @@ public class MainViewModel : ViewModel
     //    Notes = new ObservableCollection<Note>(filtredNotes);
     //}
     #endregion
-}
-
-internal abstract class Command : ICommand
-{
-    public event EventHandler CanExecuteChanged
-    {
-        add => CommandManager.RequerySuggested += value;
-        remove => CommandManager.RequerySuggested -= value;
-    }
-
-    bool ICommand.CanExecute(object parameter) => CanExecute(parameter);
-
-    void ICommand.Execute(object parameter)
-    {
-        if (((ICommand)this).CanExecute(parameter))
-            Execute(parameter);
-    }
-
-    protected virtual bool CanExecute(object p) => true;
-
-    protected abstract void Execute(object p);
-}
-
-internal class LambdaCommand : Command
-{
-    private readonly Action<object> _Execute;
-    private readonly Func<object, bool> _CanExecute;
-
-    public LambdaCommand(Action<object> Execute, Func<object, bool> CanExecute = null)
-    {
-        _Execute = Execute ?? throw new ArgumentNullException(nameof(Execute));
-        _CanExecute = CanExecute;
-    }
-
-    protected override bool CanExecute(object p) => _CanExecute?.Invoke(p) ?? true;
-
-    protected override void Execute(object p) => _Execute(p);
 }
