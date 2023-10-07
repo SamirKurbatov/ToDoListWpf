@@ -29,7 +29,7 @@ public class EditViewModel : ViewModel
 
     public string Title
     {
-        get => GetValue(note.Title);
+        get => GetValue(note.Name);
         set => SetValue(value);
     }
 

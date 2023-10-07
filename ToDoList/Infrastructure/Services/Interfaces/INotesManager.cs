@@ -1,11 +1,20 @@
-﻿using ToDoList.Data.Entities;
+﻿using System.Collections;
+using System.Collections.Generic;
+using ToDoList.Data.Entities;
 using ToDoList.Data.Models;
 
 namespace ToDoList.Infrastructure.Services.Interfaces
 {
-    internal interface INotesManager
+    public interface INotesManager
     {
+        IEnumerable<Category> Categories { get; }
+
+        IEnumerable<Note> Notes { get; }
+
         public Note AddNote(string name, PriorityItem priority, string category);
-        public Note ChangeGroup(Note note, string category);
+
+        public Note ChangeCategory(Note note, string category);
+
+        Category AddCategory(string name);
     }
 }

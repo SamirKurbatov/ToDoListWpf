@@ -7,6 +7,7 @@ namespace ToDoList.Infrastructure.Services
     {
         public static IServiceCollection AddServices(this IServiceCollection services)
             => services.AddTransient<IUserDialog, AppWindowUserDialogService>()
-            .AddScoped(typeof(IRepository<>), typeof(DbRepository<>));
+            .AddScoped(typeof(IRepository<>), typeof(DbRepository<>))
+            .AddScoped<INotesManager, NotesManager>();
     }
 }

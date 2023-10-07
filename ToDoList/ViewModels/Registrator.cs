@@ -5,6 +5,6 @@ namespace ToDoList
     internal static class Registrator
     {
         public static void AddViewModels(this IServiceCollection services)
-            => services.AddSingleton<MainViewModel>();
+            => services.AddScoped<MainViewModel>();
     }
 }

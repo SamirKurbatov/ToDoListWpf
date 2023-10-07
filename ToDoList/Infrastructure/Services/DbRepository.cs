@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 using ToDoList.Data.Context;
@@ -7,11 +8,11 @@ using ToDoList.Infrastructure.Services.Interfaces;
 
 namespace ToDoList.Infrastructure.Services
 {
-    internal class DbRepository<T> : IRepository<T> where T : Entity, new()
+    internal class DbRepository<T> : IRepository<T>, IDisposable where T : Entity, new()
     {
-        public DbRepository(TodoDb database)
+        public DbRepository(IDbContextFactory<TodoDb> db)
         {
-            this.database = database;
+            this.database = db.CreateDbContext();
             Set = database.Set<T>();
         }
 
@@ -42,8 +43,6 @@ namespace ToDoList.Infrastructure.Services
             : Items.FirstOrDefault(e => e.Id == id);
         }
 
-
-
         public bool Remove(int id)
         {
             var item = Set.Local.FirstOrDefault(x => x.Id == id)
@@ -71,6 +70,18 @@ namespace ToDoList.Infrastructure.Services
                 database.SaveChanges();
             }
             return item;
+        }
+
+        public void Dispose() => Dispose(true);
+        
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposing)
+            {
+                return;
+            }
+            database.Dispose();
         }
     }
 

@@ -7,6 +7,6 @@ namespace ToDoList.Data.Context
     internal static class Registrator
     {
         public static IServiceCollection AddDataBase(this IServiceCollection services, IConfiguration configuration)
-            => services.AddDbContext<TodoDb>(opt => opt.UseNpgsql("PostgreSQL"));
+            => services.AddDbContextFactory<TodoDb>(opt => opt.UseNpgsql("PostgreSQL"));
     }
 }

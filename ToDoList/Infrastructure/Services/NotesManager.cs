@@ -1,15 +1,27 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using ToDoList.Data.Entities;
 using ToDoList.Data.Models;
 using ToDoList.Infrastructure.Services.Interfaces;
 
 namespace ToDoList.Infrastructure.Services
 {
-    class NotesManager : INotesManager
+    internal class NotesManager : INotesManager
     {
-        private readonly IRepository<Note> Notes;
+        private readonly IRepository<Note> NotesRepo;
 
-        private readonly IRepository<Category> Categories;
+        private readonly IRepository<Category> CategoriesRepo;
+
+        public IEnumerable<Note> Notes => NotesRepo.Items;
+
+        public IEnumerable<Category> Categories => CategoriesRepo.Items;
+
+        public NotesManager(IRepository<Note> notesRepo, IRepository<Category> categoriesRepo)
+        {
+            NotesRepo = notesRepo;
+            CategoriesRepo = categoriesRepo;
+        }
 
         public Note AddNote(string name, PriorityItem priority, string category)
         {
@@ -17,26 +29,26 @@ namespace ToDoList.Infrastructure.Services
             {
                 Name = name,
                 PriorityItem = priority,
-                Category = category,
+                Category = AddCategory(category),
             };
 
-            Notes.Add(note);
+            NotesRepo.Add(note);
 
             return note;
         }
 
-        public Note ChangeGroup(Note note, string categoryName)
+        public Category AddCategory(string name)
         {
-            if (Categories.Items.FirstOrDefault(i => i.Name == categoryName) is not { } category)
-            {
-                category = new Category { Name = categoryName };
-                Categories.Add(category);
-            }
+            return CategoriesRepo.Items.FirstOrDefault(d => d.Name == name) is { } category
+                ? category
+                : CategoriesRepo.Add(new Category { Name = name });
+        }
 
-            Notes.Update(note);
+        public Note ChangeCategory(Note note, string categoryName)
+        {
+            note.Category = AddCategory(categoryName);
 
-            return note;
-
+            return NotesRepo.Update(note);
         }
     }
 

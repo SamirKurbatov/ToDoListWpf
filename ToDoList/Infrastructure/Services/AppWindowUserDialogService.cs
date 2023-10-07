@@ -16,8 +16,14 @@ namespace ToDoList.Infrastructure.Services
 
         public AppWindowUserDialogService(/* репозиторий групп */)
         {
-            notes = TodoData.Notes;
-            priorityItems = TodoData.PriorityItems;
+            priorityItems = new ObservableCollection<PriorityItem>()
+            {
+                new PriorityItem(ePriorityType.Low),
+                new PriorityItem(ePriorityType.Medium),
+                new PriorityItem(ePriorityType.High)
+            };
+
+            notes = new ObservableCollection<Note>();
         }
 
         public bool CanEdit(Note model)

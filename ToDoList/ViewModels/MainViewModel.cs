@@ -5,6 +5,7 @@ using ToDoList.Data;
 using ToDoList.Data.Entities;
 using ToDoList.Data.Models;
 using ToDoList.Infrastructure.Services;
+using ToDoList.Infrastructure.Services.Interfaces;
 
 namespace ToDoList;
 
@@ -12,18 +13,21 @@ public class MainViewModel : ViewModel
 {
     private IUserDialog userDialog;
 
-    public MainViewModel(IUserDialog userDialog)
+    private INotesManager notesManager;
+
+    public MainViewModel(IUserDialog userDialog, INotesManager notesManager)
     {
         this.userDialog = userDialog;
+        this.notesManager = notesManager;
     }
 
     #region Properties
 
-    private ObservableCollection<Category> groups;
-    public ObservableCollection<Category> Groups
+    private ObservableCollection<Category> categories;
+    public ObservableCollection<Category> Categories
     {
-        get => groups;
-        set => Set(ref groups, value);
+        get => categories;
+        set => Set(ref categories, value);
     }
 
     private ObservableCollection<PriorityItem> priorityItems;
@@ -40,13 +44,13 @@ public class MainViewModel : ViewModel
         set => Set(ref selectedNote, value);
     }
 
-    private Category selectedGroup;
-    public Category SelectedGroup
+    private Category selectedCategory;
+    public Category SelectedCategory
     {
-        get => selectedGroup;
+        get => selectedCategory;
         set
         {
-            Set(ref selectedGroup, value);
+            Set(ref selectedCategory, value);
         }
     }
 
@@ -61,8 +65,7 @@ public class MainViewModel : ViewModel
 
     public void OnLoadData(object n)
     {
-        PriorityItems = new ObservableCollection<PriorityItem>(TodoData.PriorityItems);
-        Groups = new ObservableCollection<Category>(TodoData.Groups);
+        Categories = new ObservableCollection<Category>(notesManager.Categories);
     }
 
     private bool CanLoadDataCommandExecute(object n)
@@ -75,16 +78,16 @@ public class MainViewModel : ViewModel
             => removeNoteCommand ??= new LambdaCommand(OnRemove, CanRemove);
     public void OnRemove(object p)
     {
-        var grop = SelectedGroup;
+        var grop = SelectedCategory;
         grop.Notes.Remove((Note)p);
-        SelectedGroup = null;
-        SelectedGroup = grop;
+        SelectedCategory = null;
+        SelectedCategory = grop;
     }
 
     public bool CanRemove(object p) =>
         p is Note note
-        && SelectedGroup != null
-        && SelectedGroup.Notes.Contains(note);
+        && SelectedCategory != null
+        && SelectedCategory.Notes.Contains(note);
 
 
     private ICommand addNoteCommand;
@@ -92,7 +95,7 @@ public class MainViewModel : ViewModel
             => addNoteCommand ??= new LambdaCommand(OnAdd);
     public void OnAdd(object p)
     {
-        if (userDialog.CanAdd(SelectedGroup.Notes))
+        if (userDialog.CanAdd(SelectedCategory.Notes))
         {
             // Сохранить note в бд
             // Обновить состояние интерфейса

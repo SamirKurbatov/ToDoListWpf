@@ -9,7 +9,7 @@ namespace ToDoList.Infrastructure.Services
     {
         public override IQueryable<Note> Items => Set.Include(e => e.Category);
 
-        public NotesRepository(TodoDb db) : base(db)
+        public NotesRepository(IDbContextFactory<TodoDb> db) : base(db)
         {
             
         }
