@@ -9,8 +9,18 @@ namespace ToDoList.Data.Entities
 {
     public class Note : NamedEntity
     {
-        public DateTime Date { get; set; }
+        public Note()
+        {
+            CreatedDate = DateTime.Now;
+            PriorityItem = new PriorityItem(ePriorityType.None);
+        }
+
+        public DateTime CreatedDate { get; set; }
 
         public PriorityItem PriorityItem { get; set; }
+
+        public Group Group { get; set; }
+
+        public int GroupId { get; set; }
     }
 }

@@ -45,7 +45,7 @@ namespace ToDoList
 
         public void OnAdd(object n)
         {
-            var note = new Note(Title, PriorityItem);
+            var note = new Note();
             Notes.Add(note);
             Complete?.Invoke(this, true);
         }

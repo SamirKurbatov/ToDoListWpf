@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Linq;
 using System.Windows;
+using ToDoList.Data.Context;
 using ToDoList.Infrastructure.Services;
 
 namespace ToDoList
@@ -32,6 +33,7 @@ namespace ToDoList
         {
             services.AddViewModels();
             services.AddServices();
+            services.AddDataBase(host.Configuration);
         }
 
         protected override async void OnStartup(StartupEventArgs e)
