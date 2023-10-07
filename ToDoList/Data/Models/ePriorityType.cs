@@ -1,4 +1,4 @@
-﻿namespace ToDoList.Domain
+﻿namespace ToDoList.Data.Models
 {
     public enum ePriorityType
     {

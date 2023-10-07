@@ -7,7 +7,8 @@ using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using ToDoList.Commands;
-using ToDoList.Domain;
+using ToDoList.Data.Entities;
+using ToDoList.Data.Models;
 using ToDoList.Infrastructure;
 
 namespace ToDoList;

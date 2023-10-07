@@ -2,7 +2,8 @@
 using System.Windows.Input;
 using ToDoList.Commands;
 using ToDoList.Data;
-using ToDoList.Domain;
+using ToDoList.Data.Entities;
+using ToDoList.Data.Models;
 using ToDoList.Infrastructure.Services;
 
 namespace ToDoList;
@@ -17,13 +18,6 @@ public class MainViewModel : ViewModel
     }
 
     #region Properties
-
-    private ObservableCollection<Note> notes;
-    public ObservableCollection<Note> Notes
-    {
-        get => notes;
-        set => Set(ref notes, value);
-    }
 
     private ObservableCollection<Group> groups;
     public ObservableCollection<Group> Groups
@@ -46,7 +40,6 @@ public class MainViewModel : ViewModel
         set => Set(ref selectedNote, value);
     }
 
-
     private Group selectedGroup;
     public Group SelectedGroup
     {
@@ -68,9 +61,8 @@ public class MainViewModel : ViewModel
 
     public void OnLoadData(object n)
     {
-        Notes = new ObservableCollection<Note>(TodoData.Notes);
         PriorityItems = new ObservableCollection<PriorityItem>(TodoData.PriorityItems);
-        Groups = new ObservableCollection<Group>(TodoData.GroupNotes);
+        Groups = new ObservableCollection<Group>(TodoData.Groups);
     }
 
     private bool CanLoadDataCommandExecute(object n)
@@ -78,23 +70,29 @@ public class MainViewModel : ViewModel
         return true;
     }
 
-    private ICommand removeCommand;
-    public ICommand RemoveCommand
-            => removeCommand ??= new LambdaCommand(OnRemove, CanRemove);
+    private ICommand removeNoteCommand;
+    public ICommand RemoveNoteCommand
+            => removeNoteCommand ??= new LambdaCommand(OnRemove, CanRemove);
     public void OnRemove(object p)
     {
-        Notes.Remove(SelectedNote);
+        var grop = SelectedGroup;
+        grop.Notes.Remove((Note)p);
+        SelectedGroup = null;
+        SelectedGroup = grop;
     }
 
-    public bool CanRemove(object p) => p is Note && SelectedNote != null;
+    public bool CanRemove(object p) =>
+        p is Note note
+        && SelectedGroup != null
+        && SelectedGroup.Notes.Contains(note);
 
 
-    private ICommand addCommand;
-    public ICommand AddCommand
-            => addCommand ??= new LambdaCommand(OnAdd);
+    private ICommand addNoteCommand;
+    public ICommand AddNoteCommand
+            => addNoteCommand ??= new LambdaCommand(OnAdd);
     public void OnAdd(object p)
     {
-        if (userDialog.CanAdd(Notes))
+        if (userDialog.CanAdd(SelectedGroup.Notes))
         {
             // Сохранить note в бд
             // Обновить состояние интерфейса
@@ -105,9 +103,9 @@ public class MainViewModel : ViewModel
         }
     }
 
-    private ICommand editCommand;
-    public ICommand EditCommand
-            => editCommand ??= new LambdaCommand(OnEdit);
+    private ICommand editNoteCommand;
+    public ICommand EditNoteCommand
+            => editNoteCommand ??= new LambdaCommand(OnEdit);
 
     public void OnEdit(object p)
     {
@@ -146,3 +144,4 @@ public class MainViewModel : ViewModel
     //}
     #endregion
 }
+

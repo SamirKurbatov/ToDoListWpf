@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ToDoList.Domain
+namespace ToDoList.Data.Models
 {
     public class PriorityItem : IComparable<ePriorityType>
     {
@@ -18,7 +18,7 @@ namespace ToDoList.Domain
 
         public int CompareTo(ePriorityType other)
         {
-            return (int)PriorityType.CompareTo((int)other);
+            return PriorityType.CompareTo((int)other);
         }
     }
 }

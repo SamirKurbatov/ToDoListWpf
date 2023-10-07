@@ -7,7 +7,8 @@ using System.Runtime.InteropServices;
 using System.Windows.Input;
 using ToDoList.Commands;
 using ToDoList.Data;
-using ToDoList.Domain;
+using ToDoList.Data.Entities;
+using ToDoList.Data.Models;
 using ToDoList.Infrastructure;
 
 namespace ToDoList

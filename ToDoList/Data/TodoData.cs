@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Documents;
-using ToDoList.Domain;
+using ToDoList.Data.Entities;
+using ToDoList.Data.Models;
 
 namespace ToDoList.Data
 {
@@ -16,26 +18,14 @@ namespace ToDoList.Data
                 new PriorityItem(ePriorityType.High)
             };
 
-            Notes = new()
-            {
-                new Note("Default", new PriorityItem(ePriorityType.Low)),
-                new Note("Default", new PriorityItem(ePriorityType.Low)),
-                new Note("Default", new PriorityItem(ePriorityType.Medium)),
-                new Note("Default", new PriorityItem(ePriorityType.High)),
-                new Note("Default", new PriorityItem(ePriorityType.Low)),
-                new Note("Default", new PriorityItem(ePriorityType.Low)),
-                new Note("Default", new PriorityItem(ePriorityType.Low)),
-                new Note("Default", new PriorityItem(ePriorityType.Low)),
-                new Note("Default", new PriorityItem(ePriorityType.Low)),
-                new Note("Default", new PriorityItem(ePriorityType.Low)),
-                new Note("Default", new PriorityItem(ePriorityType.Low)),
-            };
-
-            GroupNotes = new()
+            Groups = new()
             {
                 new Group("Бытовые дела",new List<Note>
                 {
                     new Note("Пропылесосить", new PriorityItem(ePriorityType.Medium)),
+                    new Note("Пропылесоситsь", new PriorityItem(ePriorityType.Medium)),
+                    new Note("Пропылесоситsaaь", new PriorityItem(ePriorityType.Medium)),
+                    new Note("Пропылесоситsaaьfdfd", new PriorityItem(ePriorityType.Medium)),
                 }),
 
                 new Group("Прогаммирование",new List<Note>
@@ -48,7 +38,7 @@ namespace ToDoList.Data
 
         public static List<Note> Notes { get; }
 
-        public static List<Group> GroupNotes { get; }
+        public static List<Group> Groups { get; }
 
         public static List<PriorityItem> PriorityItems { get; }
     }

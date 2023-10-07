@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using ToDoList.Data;
 using System.Windows;
-using ToDoList.Domain;
 using System.Linq;
 using System.Collections.ObjectModel;
+using ToDoList.Data.Entities;
+using ToDoList.Data.Models;
 
 namespace ToDoList.Infrastructure.Services
 {
