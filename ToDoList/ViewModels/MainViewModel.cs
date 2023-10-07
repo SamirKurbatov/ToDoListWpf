@@ -19,8 +19,8 @@ public class MainViewModel : ViewModel
 
     #region Properties
 
-    private ObservableCollection<Group> groups;
-    public ObservableCollection<Group> Groups
+    private ObservableCollection<Category> groups;
+    public ObservableCollection<Category> Groups
     {
         get => groups;
         set => Set(ref groups, value);
@@ -40,8 +40,8 @@ public class MainViewModel : ViewModel
         set => Set(ref selectedNote, value);
     }
 
-    private Group selectedGroup;
-    public Group SelectedGroup
+    private Category selectedGroup;
+    public Category SelectedGroup
     {
         get => selectedGroup;
         set
@@ -62,7 +62,7 @@ public class MainViewModel : ViewModel
     public void OnLoadData(object n)
     {
         PriorityItems = new ObservableCollection<PriorityItem>(TodoData.PriorityItems);
-        Groups = new ObservableCollection<Group>(TodoData.Groups);
+        Groups = new ObservableCollection<Category>(TodoData.Groups);
     }
 
     private bool CanLoadDataCommandExecute(object n)

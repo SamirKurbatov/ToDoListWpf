@@ -19,7 +19,7 @@ namespace ToDoList.Data.Entities
 
         public PriorityItem PriorityItem { get; set; }
 
-        public Group Group { get; set; }
+        public string Category { get; set; }
 
         public int GroupId { get; set; }
     }

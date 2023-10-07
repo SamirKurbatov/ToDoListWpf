@@ -11,7 +11,7 @@ namespace ToDoList.Data.Context
     {
         public DbSet<Note> Notes { get; set; }
 
-        public DbSet<Group> Groups { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         public TodoDb(DbContextOptions<TodoDb> options) : base(options) { }
 
@@ -24,14 +24,14 @@ namespace ToDoList.Data.Context
             var groupsName = new string[] { "Программирование", "Бытовуха", "Чето еще" };
 
             var groups = Enumerable.Range(0, 10)
-                .Select(i => new Group
+                .Select(i => new Category
                 {
                     Id = i,
                     Name = groupsName[random.Next(0, groupsName.Length)],
                 })
                 .ToArray();
 
-            modelBuilder.Entity<Group>().HasData(groups);
+            modelBuilder.Entity<Category>().HasData(groups);
         }
     }
 }

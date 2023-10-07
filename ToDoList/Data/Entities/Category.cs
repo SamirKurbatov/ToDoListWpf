@@ -3,7 +3,7 @@ using ToDoList.Data.Entities.Base;
 
 namespace ToDoList.Data.Entities
 {
-    public class Group : NamedEntity
+    public class Category : NamedEntity
     {
         public ICollection<Note> Notes { get; set; } = new List<Note>()
         {
