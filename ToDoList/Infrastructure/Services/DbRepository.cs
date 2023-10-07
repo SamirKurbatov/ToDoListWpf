@@ -2,9 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using ToDoList.Data.Context;
-using ToDoList.Data.Entities;
 using ToDoList.Data.Entities.Base;
-using ToDoList.Data.Models;
 using ToDoList.Infrastructure.Services.Interfaces;
 
 namespace ToDoList.Infrastructure.Services
@@ -43,8 +41,8 @@ namespace ToDoList.Infrastructure.Services
             ? set.Find(id)
             : Items.FirstOrDefault(e => e.Id == id);
         }
-            
-       
+
+
 
         public bool Remove(int id)
         {
@@ -73,30 +71,6 @@ namespace ToDoList.Infrastructure.Services
                 database.SaveChanges();
             }
             return item;
-        }
-    }
-
-    class NotesManager : INotesManager
-    {
-        private readonly IRepository<Note> Notes;
-
-        private readonly IRepository<Category> Categories;
-
-        public Note AddNote(string name, PriorityItem priority, string category)
-        {
-            var note = new Note
-            {
-                Name = name,
-                PriorityItem = priority,
-                Category = category,
-            };
-
-            Notes.Add(note);
-        }
-
-        public Note ChangeGroup(Note note, string category)
-        {
-            throw new System.NotImplementedException();
         }
     }
 
