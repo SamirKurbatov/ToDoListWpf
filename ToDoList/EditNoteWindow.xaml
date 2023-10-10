@@ -21,9 +21,9 @@
                     <Separator Background="DarkBlue"/>
                 </StackPanel>
                 <UniformGrid DockPanel.Dock="Bottom" Rows="1" Margin="15" HorizontalAlignment="Center">
-                    <Button Style="{StaticResource MaterialDesignRaisedSecondaryButton}" Content="Применить" IsDefault="True" Command="{Binding CommitCommand}"/>
+                    <Button Style="{StaticResource MaterialDesignRaisedSecondaryButton}" Content="Применить" IsDefault="True" Command="{Binding CloseDialogCommand}" CommandParameter="true"/>
                     <Button Style="{StaticResource MaterialDesignRaisedSecondaryButton}" Margin="5 0" Content="Вернуть" Command="{Binding RegectCommand}"/>
-                    <Button Style="{StaticResource MaterialDesignRaisedSecondaryButton}" Content="Отменить" Command="{Binding CancelCommand}" IsCancel="True"/>
+                    <Button Style="{StaticResource MaterialDesignRaisedSecondaryButton}" Content="Отменить" Command="{Binding CloseDialogCommand}" CommandParameter="false" IsCancel="True"/>
                 </UniformGrid>
                 <Grid Margin="5">
                     <Grid.ColumnDefinitions>
@@ -33,20 +33,30 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <TextBox Style="{DynamicResource textBoxTheme}" 
-                         Text="{Binding Title}" 
+                         Text="{Binding Name}" 
                          Grid.Row="0"
                          md:HintAssist.Hint="Название задачи"
                          md:HintAssist.FloatingOffset="0 -15"/>
+                    
                     <ComboBox
                           Style="{DynamicResource comboBoxTheme}"
                           Grid.Row="1" 
                           md:HintAssist.Hint="Приоритет задачи"
                           md:HintAssist.FloatingOffset="0 -15"
                           ItemsSource="{Binding PriorityItems}" 
-                          SelectedItem="{Binding PriorityItem}"/>
+                          SelectedItem="{Binding Priority}"/>
+
+                    <ComboBox
+                          Style="{DynamicResource comboBoxTheme}"
+                          Grid.Row="2" 
+                          md:HintAssist.Hint="Категория задач"
+                          md:HintAssist.FloatingOffset="0 -15"
+                          ItemsSource="{Binding Categories}" DisplayMemberPath="Name" 
+                          SelectedItem="{Binding Category.Name}"/>
                 </Grid>
             </DockPanel>
         </Border>

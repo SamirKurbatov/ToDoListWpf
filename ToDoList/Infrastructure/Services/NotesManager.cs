@@ -9,13 +9,9 @@ namespace ToDoList.Infrastructure.Services
 {
     internal class NotesManager : INotesManager
     {
-        private readonly IRepository<Note> NotesRepo;
+        public IRepository<Note> NotesRepo { get; }
 
-        private readonly IRepository<Category> CategoriesRepo;
-
-        public IEnumerable<Note> Notes => NotesRepo.Items;
-
-        public IEnumerable<Category> Categories => CategoriesRepo.Items;
+        public IRepository<Category> CategoriesRepo { get; }
 
         public NotesManager(IRepository<Note> notesRepo, IRepository<Category> categoriesRepo)
         {
@@ -23,12 +19,13 @@ namespace ToDoList.Infrastructure.Services
             CategoriesRepo = categoriesRepo;
         }
 
-        public Note AddNote(string name, PriorityItem priority, string category)
+        public Note AddNote(string name, string priority, string category)
         {
             var note = new Note
             {
                 Name = name,
-                PriorityItem = priority,
+                Priority = priority,
+                CreatedDate = DateTime.UtcNow,
                 Category = AddCategory(category),
             };
 
@@ -50,6 +47,20 @@ namespace ToDoList.Infrastructure.Services
 
             return NotesRepo.Update(note);
         }
+
+
+        public Note ChangePriority(Note note, string priority)
+        {
+            note.Priority = priority.ToString();
+
+            return NotesRepo.Update(note);
+        }
+
+
+        public bool Remove(Note note)
+        => note is null
+            ? throw new ArgumentNullException(nameof(note))
+            : NotesRepo.Remove(note.Id);
     }
 
 }

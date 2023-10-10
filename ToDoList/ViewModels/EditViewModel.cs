@@ -23,21 +23,34 @@ public class EditViewModel : ViewModel
 
     private readonly Note note;
 
-    public IEnumerable<Note> Notes { get; }
+    public IEnumerable<Category> Categories { get; }
 
-    public IEnumerable<PriorityItem> PriorityItems { get; }
+    public IEnumerable<string> PriorityItems { get; }
 
-    public string Title
+    public string Name
     {
         get => GetValue(note.Name);
         set => SetValue(value);
     }
 
-    public PriorityItem PriorityItem
+    public string Priority
     {
-        get => GetValue(note.PriorityItem);
+        get => GetValue(note.Priority);
         set => SetValue(value);
     }
+
+    public DateTime CreatedDate
+    {
+        get => GetValue(note.CreatedDate);
+        set => SetValue(value);
+    }
+
+    public Category Category
+    {
+        get => GetValue(note.Category);
+        set => SetValue(value);
+    }
+
     #endregion
 
     protected virtual bool SetValue(object value, [CallerMemberName] string propName = "")
@@ -64,13 +77,13 @@ public class EditViewModel : ViewModel
 
 
     public EditViewModel()
-        : this(new Note(), Enumerable.Empty<Note>(), Enumerable.Empty<PriorityItem>()) { }
+        : this(new Note(), Enumerable.Empty<Category>(), Enumerable.Empty<string>()) { }
 
-    public EditViewModel(Note note, IEnumerable<Note> notes, IEnumerable<PriorityItem> items)
+    public EditViewModel(Note note, IEnumerable<Category> categories, IEnumerable<string> priorityItems)
     {
         this.note = note;
-        Notes = notes;
-        PriorityItems = items;
+        Categories = categories;
+        PriorityItems = priorityItems;
     }
     #endregion
 
@@ -79,56 +92,48 @@ public class EditViewModel : ViewModel
     public ICommand? CommitCommand
         => commitCommand ??= new LambdaCommand(OnCommitCommand, CanCommitCommand);
 
-    public void OnCommitCommand(object n)
-    {
-        Commit();
-        Complete?.Invoke(this, true);
-    }
+    public void OnCommitCommand(object n) => Commit();
 
-    public bool CanCommitCommand(object n)
-    {
-        return true;
-    }
+    public bool CanCommitCommand(object n) => true;
+
 
     private ICommand? regectCommand;
     public ICommand? RegectCommand
         => regectCommand ??= new LambdaCommand(OnRegectCommand, CanRegectCommand);
-    public void OnRegectCommand(object n)
-    {
-        Regect();
-    }
+    public void OnRegectCommand(object n) => Regect();
+
     public bool CanRegectCommand(object n)
         => Values.Count > 0;
 
-    private ICommand? cancelCommand;
-    public ICommand? CancelCommand
-        => cancelCommand ??= new LambdaCommand(OnCancelCommand, CanCancelCommand);
+    private ICommand? cancelDialogCommand;
+    public ICommand? CloseDialogCommand
+        => cancelDialogCommand ??= new LambdaCommand(OnCloseDialogCommand, CanCloseDialogCommand);
 
-    public void OnCancelCommand(object n)
+    public void OnCloseDialogCommand(object n)
     {
-        Regect();
-        Complete?.Invoke(this, false);
+        var result = n is not null && Convert.ToBoolean(n);
+        if (result)
+        {
+            Commit();
+        }
+        Complete?.Invoke(this, result);
     }
 
-    public bool CanCancelCommand(object n)
-    {
-        return true;
-    }
+    public bool CanCloseDialogCommand(object n) => true;
+
     #endregion
 
-    public void Commit()
+    private void Commit()
     {
-        var type = typeof(Note);
+        var type = note.GetType();
 
         foreach (var (propName, value) in Values)
         {
             var property = type.GetProperty(propName);
-            if (property is null || !property.CanWrite) continue;
+            if (property is not { CanWrite: true }) continue;
 
             property.SetValue(note, value);
         }
-
-        Values.Clear();
     }
 
     public void Regect()

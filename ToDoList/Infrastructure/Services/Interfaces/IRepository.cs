@@ -3,7 +3,7 @@ using ToDoList.Data.Entities.Base;
 
 namespace ToDoList.Infrastructure.Services.Interfaces;
 
-internal interface IRepository<T> where T : Entity
+public interface IRepository<T> where T : Entity
 {
     IQueryable<T> Items { get; }
 

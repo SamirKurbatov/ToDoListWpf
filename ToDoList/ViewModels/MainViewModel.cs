@@ -30,8 +30,8 @@ public class MainViewModel : ViewModel
         set => Set(ref categories, value);
     }
 
-    private ObservableCollection<PriorityItem> priorityItems;
-    public ObservableCollection<PriorityItem> PriorityItems
+    private ObservableCollection<string> priorityItems;
+    public ObservableCollection<string> PriorityItems
     {
         get => priorityItems;
         set => Set(ref priorityItems, value);
@@ -65,7 +65,7 @@ public class MainViewModel : ViewModel
 
     public void OnLoadData(object n)
     {
-        Categories = new ObservableCollection<Category>(notesManager.Categories);
+        Categories = new ObservableCollection<Category>(notesManager.CategoriesRepo.Items);
     }
 
     private bool CanLoadDataCommandExecute(object n)
@@ -78,10 +78,7 @@ public class MainViewModel : ViewModel
             => removeNoteCommand ??= new LambdaCommand(OnRemove, CanRemove);
     public void OnRemove(object p)
     {
-        var grop = SelectedCategory;
-        grop.Notes.Remove((Note)p);
-        SelectedCategory = null;
-        SelectedCategory = grop;
+        notesManager.Remove((Note)p);
     }
 
     public bool CanRemove(object p) =>
@@ -90,37 +87,21 @@ public class MainViewModel : ViewModel
         && SelectedCategory.Notes.Contains(note);
 
 
-    private ICommand addNoteCommand;
-    public ICommand AddNoteCommand
-            => addNoteCommand ??= new LambdaCommand(OnAdd);
-    public void OnAdd(object p)
-    {
-        if (userDialog.CanAdd(SelectedCategory.Notes))
-        {
-            // Сохранить note в бд
-            // Обновить состояние интерфейса
-        }
-        else
-        {
-            // nothing
-        }
-    }
-
     private ICommand editNoteCommand;
     public ICommand EditNoteCommand
-            => editNoteCommand ??= new LambdaCommand(OnEdit);
+            => editNoteCommand ??= new LambdaCommand(OnEdit, _ => SelectedCategory != null);
 
     public void OnEdit(object p)
     {
-        var note = (Note)p;
-        if (userDialog.CanEdit(note))
+        var note = p as Note ?? new Note();
+        if (!userDialog.CanEdit(note)) return;
+        if (note is null)
         {
-            // Сохранить note в бд
-            // Обновить состояние интерфейса
+            notesManager.NotesRepo.Add(note);
         }
         else
         {
-            // nothing
+            notesManager.NotesRepo.Update(note);
         }
     }
 

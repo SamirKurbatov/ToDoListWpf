@@ -7,14 +7,16 @@ namespace ToDoList.Infrastructure.Services.Interfaces
 {
     public interface INotesManager
     {
-        IEnumerable<Category> Categories { get; }
+        IRepository<Category> CategoriesRepo { get; }
 
-        IEnumerable<Note> Notes { get; }
+        IRepository<Note> NotesRepo { get; }
 
-        public Note AddNote(string name, PriorityItem priority, string category);
+        public Note AddNote(string name, string priority, string category);
 
         public Note ChangeCategory(Note note, string category);
 
         Category AddCategory(string name);
+
+        public bool Remove(Note note);
     }
 }

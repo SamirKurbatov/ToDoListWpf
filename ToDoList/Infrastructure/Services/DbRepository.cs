@@ -52,7 +52,7 @@ namespace ToDoList.Infrastructure.Services
                 return false;
             }
 
-            database.Entry(item).State = EntityState.Modified;
+            database.Entry(item).State = EntityState.Deleted;
 
             if (AutoSaveChanges)
             {

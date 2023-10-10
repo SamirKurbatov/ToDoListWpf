@@ -41,7 +41,7 @@
                                            ConverterCulture=ru-RU}"/>
                         <TextBlock 
                             Style="{DynamicResource textBlockTheme}"
-                            Text="{Binding Path=PriorityItem, 
+                            Text="{Binding Path=Priority, 
                                            Mode=TwoWay, 
                                            UpdateSourceTrigger=PropertyChanged, 
                                            StringFormat=Приоритет: {0}}"/>
@@ -64,6 +64,11 @@
         <!--CategoryNoteDataTemplate-->
         <DataTemplate x:Key="categoryNoteDataTemplate" DataType="models:Category">
             <StackPanel Orientation="Vertical">
+                <TextBlock
+                    Style="{DynamicResource textBlockTheme}"
+                    FontSize="16" 
+                    Text="{Binding Path=CreatedDate, StringFormat=Дата создания: {0:d}, ConverterCulture=ru-RU}"
+                    TextWrapping="Wrap"/>
                 <TextBlock
                     Style="{DynamicResource textBlockTheme}"
                     FontSize="16" 
@@ -138,7 +143,7 @@
                                          Rows="1" HorizontalAlignment="Right" Margin="0 5">
                                 <Button Style="{StaticResource MaterialDesignRaisedSecondaryButton}"
                                     Content="Добавить" 
-                                    Command="{Binding AddNoteCommand}"/>
+                                    Command="{Binding EditNoteCommand}"/>
                                 <Button 
                                     Style="{StaticResource MaterialDesignRaisedSecondaryButton}" 
                                     Content="Редактировать"

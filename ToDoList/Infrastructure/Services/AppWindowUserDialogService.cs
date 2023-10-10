@@ -5,30 +5,31 @@ using System.Linq;
 using System.Collections.ObjectModel;
 using ToDoList.Data.Entities;
 using ToDoList.Data.Models;
+using ToDoList.Infrastructure.Services.Interfaces;
 
 namespace ToDoList.Infrastructure.Services
 {
     internal class AppWindowUserDialogService : IUserDialog
     {
-        private IEnumerable<Note> notes;
+        private readonly IRepository<Category> categoryRepo;
 
-        private IEnumerable<PriorityItem> priorityItems;
+        private readonly IEnumerable<string> priorities;
 
-        public AppWindowUserDialogService(/* репозиторий групп */)
+        public AppWindowUserDialogService(IRepository<Category> categoryRepo)
         {
-            priorityItems = new ObservableCollection<PriorityItem>()
+            priorities = new List<string>()
             {
-                new PriorityItem(ePriorityType.Low),
-                new PriorityItem(ePriorityType.Medium),
-                new PriorityItem(ePriorityType.High)
+                ePriorityType.Low.ToString(),
+                ePriorityType.Medium.ToString(),
+                ePriorityType.High.ToString(),
             };
 
-            notes = new ObservableCollection<Note>();
+            this.categoryRepo = categoryRepo;
         }
 
         public bool CanEdit(Note model)
         {
-            var viewModel = new EditViewModel(model, notes, priorityItems);
+            var viewModel = new EditViewModel(model, categoryRepo.Items, priorities);
             var view = new EditNoteWindow
             {
                 DataContext = viewModel,
@@ -41,28 +42,6 @@ namespace ToDoList.Infrastructure.Services
                 view.DialogResult = e.Arg;
                 view.Close();
             };
-            return view.ShowDialog() ?? false;
-        }
-
-
-        public bool CanAdd(ICollection<Note> notes)
-        {
-            var viewModel = new AddNoteViewModel(notes, priorityItems);
-
-            var view = new AddNoteWindow()
-            {
-                DataContext = viewModel,
-                Owner = App.CurrentWindow,
-                WindowStartupLocation = WindowStartupLocation.CenterOwner
-            };
-
-            viewModel.Complete += (s, e)
-                =>
-            {
-                view.DialogResult = e.Arg;
-                view.Close();
-            };
-
             return view.ShowDialog() ?? false;
         }
     }

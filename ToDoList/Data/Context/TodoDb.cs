@@ -20,46 +20,49 @@ namespace ToDoList.Data.Context
         {
             base.OnModelCreating(modelBuilder);
 
-            var random = new Random();
 
-            var groupsName = new string[] { "Программирование", "Бытовуха", "Чето еще" };
+            //var groupsName = new string[] { "Программирование", "Бытовуха", "Чето еще" };
 
-            var priorities = new PriorityItem[]
-            {
-                new PriorityItem(ePriorityType.Low),
-                new PriorityItem(ePriorityType.Medium),
-                new PriorityItem(ePriorityType.High)
-            };
+            //var priorities = new string[]
+            //{
+            //  ePriorityType.Low.ToString(),
+            //  ePriorityType.Medium.ToString(),
+            //  ePriorityType.High.ToString(),
+            //};
 
-            var notesName = new string[] { "Сделать петпроект", "Литкод", "Пылесосить" };
+            //var notesName = new string[] { "Сделать петпроект", "Литкод", "Пылесосить" };
 
-            var groups = Enumerable.Range(0, 10)
+            var groups = Enumerable.Range(1, 10)
                 .Select(i => new Category
                 {
                     Id = i,
-                    Name = groupsName[random.Next(0, groupsName.Length)],
+                    Name = $"Группа {i}",
                 })
                 .ToArray();
 
 
-
-            var notes = Enumerable.Range(0, 10)
-                .Select(n => new Note
-                {
-                    Name = notesName[random.Next(0, notesName.Length)],
-                    PriorityItem = priorities[random.Next(0, notesName.Length)],
-                })
-                .ToArray();
-
-            modelBuilder.Entity<Category>().HasIndex(d => d.Name);
+            modelBuilder.Entity<Category>().HasIndex(c => c.Name);
             modelBuilder.Entity<Category>()
-                .HasMany(g => g.Notes)
+                .HasMany(c => c.Notes)
                 .WithOne(e => e.Category)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Category>().HasData(groups);
 
-            modelBuilder.Entity<Note>().HasIndex(note => new { note.Name, note.PriorityItem, note.Category });
+            var random = new Random();
+
+            var notes = Enumerable.Range(1, 10)
+                .Select(i => new Note
+                {
+                    Id = i,
+                    Name = $"Задача {i}",
+                    Priority = $"Приоритет {i}",
+                    CategoryId = groups[random.Next(0, groups.Length)].Id,
+                })
+                .ToArray();
+
+
+            modelBuilder.Entity<Note>().HasIndex(note => new { note.Name, note.Priority, note.CreatedDate });
             modelBuilder.Entity<Note>().HasData(notes);
         }
     }

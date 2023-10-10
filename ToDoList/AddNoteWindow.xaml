@@ -48,17 +48,17 @@
                     <TextBox Style="{DynamicResource textBoxTheme}" 
                              md:HintAssist.Hint="Название задачи"
                              md:HintAssist.FloatingOffset="0 -15"
-                             Text="{Binding Title}" 
+                             Text="{Binding Note.Name}" 
                              Grid.Column="1" 
                              Grid.Row="0"/>
-                    <ComboBox Style="{StaticResource comboBoxTheme}"
-                              md:HintAssist.Hint="Приоритет задачи"
-                              md:HintAssist.FloatingOffset="0 -15"
-                             
-                              Grid.Column="1" 
-                              Grid.Row="1" 
+                    <ComboBox Grid.Row="1" 
+                              Style="{DynamicResource comboBoxTheme}"
+                              md:HintAssist.Hint="Приоритет"
+                                md:HintAssist.FloatingOffset="0 -15"
                               ItemsSource="{Binding PriorityItems}" 
-                              SelectedItem="{Binding PriorityItem}"/>
+                              SelectedItem="{Binding Note.Priority}">
+                        
+                    </ComboBox>
                 </Grid>
         </DockPanel>
         </Border>
