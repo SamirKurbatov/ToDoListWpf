@@ -95,7 +95,8 @@ public class MainViewModel : ViewModel
     {
         var note = p as Note ?? new Note();
         if (!userDialog.CanEdit(note)) return;
-        if (note is null)
+
+        if (p is null)
         {
             notesManager.NotesRepo.Add(note);
         }

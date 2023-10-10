@@ -36,7 +36,7 @@
                         <TextBlock 
                             Style="{DynamicResource textBlockTheme}"
                             Margin="0 5"
-                            Text="{Binding Path=Date, 
+                            Text="{Binding Path=CreatedDate, 
                                            StringFormat=Дата создания: {0}, 
                                            ConverterCulture=ru-RU}"/>
                         <TextBlock 
@@ -64,11 +64,6 @@
         <!--CategoryNoteDataTemplate-->
         <DataTemplate x:Key="categoryNoteDataTemplate" DataType="models:Category">
             <StackPanel Orientation="Vertical">
-                <TextBlock
-                    Style="{DynamicResource textBlockTheme}"
-                    FontSize="16" 
-                    Text="{Binding Path=CreatedDate, StringFormat=Дата создания: {0:d}, ConverterCulture=ru-RU}"
-                    TextWrapping="Wrap"/>
                 <TextBlock
                     Style="{DynamicResource textBlockTheme}"
                     FontSize="16" 
@@ -200,6 +195,7 @@
                                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                       ScrollViewer.VerticalScrollBarVisibility="Hidden"
                                       VirtualizingStackPanel.ScrollUnit="Pixel"
+
                                       HorizontalAlignment="Center">
                                 <ListView.ItemsPanel>
                                     <ItemsPanelTemplate>

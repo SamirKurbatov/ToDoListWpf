@@ -7,7 +7,7 @@
         xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         ResizeMode="NoResize"
-        Title="Редактирование" Height="384" Width="400" 
+        Title="Задача" Height="384" Width="400" 
         Style="{DynamicResource mainTheme}"
         d:DataContext="{d:DesignInstance Type=local:EditViewModel, IsDesignTimeCreatable=True}">
     <Border Padding="5">
@@ -15,7 +15,7 @@
             <DockPanel>
                 <StackPanel DockPanel.Dock="Top" Margin="5">
                     <Label 
-                    Content="Редактирование задачи" 
+                    Content="Задача" 
                     FontSize="26" 
                     Style="{DynamicResource labelTheme}"/>
                     <Separator Background="DarkBlue"/>
@@ -49,14 +49,6 @@
                           md:HintAssist.FloatingOffset="0 -15"
                           ItemsSource="{Binding PriorityItems}" 
                           SelectedItem="{Binding Priority}"/>
-
-                    <ComboBox
-                          Style="{DynamicResource comboBoxTheme}"
-                          Grid.Row="2" 
-                          md:HintAssist.Hint="Категория задач"
-                          md:HintAssist.FloatingOffset="0 -15"
-                          ItemsSource="{Binding Categories}" DisplayMemberPath="Name" 
-                          SelectedItem="{Binding Category.Name}"/>
                 </Grid>
             </DockPanel>
         </Border>

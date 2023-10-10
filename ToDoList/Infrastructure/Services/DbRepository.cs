@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows;
 using ToDoList.Data.Context;
 using ToDoList.Data.Entities.Base;
 using ToDoList.Infrastructure.Services.Interfaces;
@@ -64,16 +65,37 @@ namespace ToDoList.Infrastructure.Services
 
         public T Update(T item)
         {
-            database.Entry(item).State = EntityState.Modified;
-            if (AutoSaveChanges)
+            try
             {
-                database.SaveChanges();
+                database.Entry(item).State = EntityState.Modified;
+                if (AutoSaveChanges)
+                {
+                    database.SaveChanges();
+                }
             }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                foreach (var entry in ex.Entries)
+                {
+                    var databaseEntry = entry.GetDatabaseValues();
+
+                    if (databaseEntry == null)
+                    {
+                        Set.Add(item);
+                    }
+                    else
+                    {
+                        entry.OriginalValues.SetValues(databaseEntry);
+                    }
+                }
+            }
+
+            database.SaveChanges();
             return item;
         }
 
         public void Dispose() => Dispose(true);
-        
+
 
         protected virtual void Dispose(bool disposing)
         {

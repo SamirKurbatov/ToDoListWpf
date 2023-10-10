@@ -26,14 +26,14 @@ namespace ToDoList
         public static IServiceProvider Services => Hosting.Services;
 
         private static IHostBuilder CreateHostBuilder(string[] args)
-            => Host.CreateDefaultBuilder(args).ConfigureAppConfiguration(opt => opt.AddJsonFile("configuration.json", true, true))
+            => Host.CreateDefaultBuilder(args).ConfigureAppConfiguration(opt => opt.AddJsonFile("appsettings.json", true, true))
             .ConfigureServices(ConfigureServices);
 
         private static void ConfigureServices(HostBuilderContext host, IServiceCollection services)
         {
-            services.AddViewModels();
-            services.AddServices();
             services.AddDataBase(host.Configuration);
+            services.AddServices();
+            services.AddViewModels();
         }
 
         protected override async void OnStartup(StartupEventArgs e)

@@ -51,7 +51,7 @@ namespace ToDoList.Data.Context
 
             var random = new Random();
 
-            var notes = Enumerable.Range(1, 10)
+            var notes = Enumerable.Range(1, 100)
                 .Select(i => new Note
                 {
                     Id = i,

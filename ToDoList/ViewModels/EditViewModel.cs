@@ -81,9 +81,9 @@ public class EditViewModel : ViewModel
 
     public EditViewModel(Note note, IEnumerable<Category> categories, IEnumerable<string> priorityItems)
     {
-        this.note = note;
         Categories = categories;
         PriorityItems = priorityItems;
+        this.note = note;
     }
     #endregion
 
@@ -107,7 +107,7 @@ public class EditViewModel : ViewModel
 
     private ICommand? cancelDialogCommand;
     public ICommand? CloseDialogCommand
-        => cancelDialogCommand ??= new LambdaCommand(OnCloseDialogCommand, CanCloseDialogCommand);
+        => cancelDialogCommand ??= new LambdaCommand(OnCloseDialogCommand);
 
     public void OnCloseDialogCommand(object n)
     {
@@ -118,8 +118,6 @@ public class EditViewModel : ViewModel
         }
         Complete?.Invoke(this, result);
     }
-
-    public bool CanCloseDialogCommand(object n) => true;
 
     #endregion
 

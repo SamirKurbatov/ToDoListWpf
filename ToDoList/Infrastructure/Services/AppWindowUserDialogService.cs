@@ -17,25 +17,20 @@ namespace ToDoList.Infrastructure.Services
 
         public AppWindowUserDialogService(IRepository<Category> categoryRepo)
         {
+            this.categoryRepo = categoryRepo;
+
             priorities = new List<string>()
             {
                 ePriorityType.Low.ToString(),
                 ePriorityType.Medium.ToString(),
-                ePriorityType.High.ToString(),
+                ePriorityType.High.ToString()
             };
-
-            this.categoryRepo = categoryRepo;
         }
 
         public bool CanEdit(Note model)
         {
             var viewModel = new EditViewModel(model, categoryRepo.Items, priorities);
-            var view = new EditNoteWindow
-            {
-                DataContext = viewModel,
-                Owner = App.CurrentWindow,
-                WindowStartupLocation = WindowStartupLocation.CenterOwner
-            };
+            var view = new EditNoteWindow { DataContext = viewModel };
 
             viewModel.Complete += (s, e) =>
             {
