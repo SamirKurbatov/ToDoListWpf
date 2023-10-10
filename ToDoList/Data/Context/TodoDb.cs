@@ -23,12 +23,12 @@ namespace ToDoList.Data.Context
 
             //var groupsName = new string[] { "Программирование", "Бытовуха", "Чето еще" };
 
-            //var priorities = new string[]
-            //{
-            //  ePriorityType.Low.ToString(),
-            //  ePriorityType.Medium.ToString(),
-            //  ePriorityType.High.ToString(),
-            //};
+            var priorities = new string[]
+            {
+              ePriorityType.Low.ToString(),
+              ePriorityType.Medium.ToString(),
+              ePriorityType.High.ToString(),
+            };
 
             //var notesName = new string[] { "Сделать петпроект", "Литкод", "Пылесосить" };
 
@@ -44,7 +44,7 @@ namespace ToDoList.Data.Context
             modelBuilder.Entity<Category>().HasIndex(c => c.Name);
             modelBuilder.Entity<Category>()
                 .HasMany(c => c.Notes)
-                .WithOne(e => e.Category)
+                .WithOne(n => n.Category)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Category>().HasData(groups);
@@ -56,13 +56,14 @@ namespace ToDoList.Data.Context
                 {
                     Id = i,
                     Name = $"Задача {i}",
-                    Priority = $"Приоритет {i}",
+                    CreatedDate = DateTime.UtcNow,
+                    Priority = $"{priorities[random.Next(0, priorities.Length)]}",
                     CategoryId = groups[random.Next(0, groups.Length)].Id,
                 })
                 .ToArray();
 
 
-            modelBuilder.Entity<Note>().HasIndex(note => new { note.Name, note.Priority, note.CreatedDate });
+            modelBuilder.Entity<Note>().HasIndex(note => new { note.Name, note.CreatedDate, note.Priority });
             modelBuilder.Entity<Note>().HasData(notes);
         }
     }

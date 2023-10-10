@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using ToDoList.Commands;
 using ToDoList.Data;
@@ -75,17 +76,7 @@ public class MainViewModel : ViewModel
 
     private ICommand removeNoteCommand;
     public ICommand RemoveNoteCommand
-            => removeNoteCommand ??= new LambdaCommand(OnRemove, CanRemove);
-    public void OnRemove(object p)
-    {
-        notesManager.Remove((Note)p);
-    }
-
-    public bool CanRemove(object p) =>
-        p is Note note
-        && SelectedCategory != null
-        && SelectedCategory.Notes.Contains(note);
-
+            => removeNoteCommand ??= new LambdaCommand(p => notesManager.Remove((Note)p), p => p is Note);
 
     private ICommand editNoteCommand;
     public ICommand EditNoteCommand
@@ -93,6 +84,7 @@ public class MainViewModel : ViewModel
 
     public void OnEdit(object p)
     {
+
         var note = p as Note ?? new Note();
         if (!userDialog.CanEdit(note)) return;
 

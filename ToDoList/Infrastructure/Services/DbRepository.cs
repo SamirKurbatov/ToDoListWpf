@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using ToDoList.Data.Context;
+using ToDoList.Data.Entities;
 using ToDoList.Data.Entities.Base;
 using ToDoList.Infrastructure.Services.Interfaces;
 
@@ -27,11 +28,19 @@ namespace ToDoList.Infrastructure.Services
 
         public T Add(T item)
         {
-            Set.Add(item);
-
-            if (AutoSaveChanges)
+            try
             {
-                database.SaveChanges();
+                Set.Add(item);
+
+                if (AutoSaveChanges)
+                {
+                    database.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при добавлении записи: {ex.Message}");
+                throw;
             }
 
             return item;
@@ -65,32 +74,11 @@ namespace ToDoList.Infrastructure.Services
 
         public T Update(T item)
         {
-            try
+            database.Entry(item).State = EntityState.Modified;
+            if (AutoSaveChanges)
             {
-                database.Entry(item).State = EntityState.Modified;
-                if (AutoSaveChanges)
-                {
-                    database.SaveChanges();
-                }
+                database.SaveChanges();
             }
-            catch (DbUpdateConcurrencyException ex)
-            {
-                foreach (var entry in ex.Entries)
-                {
-                    var databaseEntry = entry.GetDatabaseValues();
-
-                    if (databaseEntry == null)
-                    {
-                        Set.Add(item);
-                    }
-                    else
-                    {
-                        entry.OriginalValues.SetValues(databaseEntry);
-                    }
-                }
-            }
-
-            database.SaveChanges();
             return item;
         }
 

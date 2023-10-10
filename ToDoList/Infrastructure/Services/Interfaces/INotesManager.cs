@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using ToDoList.Data.Entities;
 using ToDoList.Data.Models;
@@ -11,7 +12,7 @@ namespace ToDoList.Infrastructure.Services.Interfaces
 
         IRepository<Note> NotesRepo { get; }
 
-        public Note AddNote(string name, string priority, string category);
+        public Note AddNote(string name, string priority, string category, DateTime createdDate);
 
         public Note ChangeCategory(Note note, string category);
 

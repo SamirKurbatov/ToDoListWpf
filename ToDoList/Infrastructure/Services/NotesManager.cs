@@ -19,13 +19,13 @@ namespace ToDoList.Infrastructure.Services
             CategoriesRepo = categoriesRepo;
         }
 
-        public Note AddNote(string name, string priority, string category)
+        public Note AddNote(string name, string priority, string category, DateTime createdDate)
         {
             var note = new Note
             {
                 Name = name,
                 Priority = priority,
-                CreatedDate = DateTime.UtcNow,
+                CreatedDate = createdDate,
                 Category = AddCategory(category),
             };
 
@@ -43,7 +43,9 @@ namespace ToDoList.Infrastructure.Services
 
         public Note ChangeCategory(Note note, string categoryName)
         {
-            note.Category = AddCategory(categoryName);
+            var category = AddCategory(categoryName);
+            note.Category = category;
+            note.CategoryId = category.Id;
 
             return NotesRepo.Update(note);
         }

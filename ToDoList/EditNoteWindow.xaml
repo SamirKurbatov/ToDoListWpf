@@ -41,7 +41,7 @@
                          Grid.Row="0"
                          md:HintAssist.Hint="Название задачи"
                          md:HintAssist.FloatingOffset="0 -15"/>
-                    
+
                     <ComboBox
                           Style="{DynamicResource comboBoxTheme}"
                           Grid.Row="1" 
@@ -49,6 +49,12 @@
                           md:HintAssist.FloatingOffset="0 -15"
                           ItemsSource="{Binding PriorityItems}" 
                           SelectedItem="{Binding Priority}"/>
+
+                    <TextBox Style="{DynamicResource textBoxTheme}" 
+                             Text="{Binding CategoryId}"
+                         Grid.Row="2"
+                         md:HintAssist.Hint="Id группы"
+                         md:HintAssist.FloatingOffset="0 -15"/>
                 </Grid>
             </DockPanel>
         </Border>

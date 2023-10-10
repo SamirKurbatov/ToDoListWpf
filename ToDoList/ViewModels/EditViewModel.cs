@@ -51,6 +51,12 @@ public class EditViewModel : ViewModel
         set => SetValue(value);
     }
 
+    public int CategoryId
+    {
+        get => GetValue(note.CategoryId);
+        set => SetValue(value);
+    }
+
     #endregion
 
     protected virtual bool SetValue(object value, [CallerMemberName] string propName = "")
@@ -81,9 +87,9 @@ public class EditViewModel : ViewModel
 
     public EditViewModel(Note note, IEnumerable<Category> categories, IEnumerable<string> priorityItems)
     {
+        this.note = note;
         Categories = categories;
         PriorityItems = priorityItems;
-        this.note = note;
     }
     #endregion
 

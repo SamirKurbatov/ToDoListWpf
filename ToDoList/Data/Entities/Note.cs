@@ -10,6 +10,11 @@ namespace ToDoList.Data.Entities
 {
     public class Note : NamedEntity
     {
+        public Note()
+        {
+            CreatedDate = DateTime.UtcNow;
+        }
+
         public DateTime CreatedDate { get; set; }
 
         public string? Priority { get; set; }
