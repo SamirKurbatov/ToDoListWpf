@@ -6,6 +6,7 @@ using ToDoList.Data.Models;
 
 namespace ToDoList.Infrastructure.Services.Interfaces
 {
+    // TODO обобщить интерфейсы
     public interface INotesManager
     {
         IRepository<Category> CategoriesRepo { get; }
@@ -14,7 +15,7 @@ namespace ToDoList.Infrastructure.Services.Interfaces
 
         public Note AddNote(string name, string priority, string category, DateTime createdDate);
 
-        public Note ChangeCategory(Note note, string category);
+        public Note ChangeNote(Note note, string categor, string priority);
 
         Category AddCategory(string name);
 

@@ -7,5 +7,6 @@ namespace ToDoList.Infrastructure.Services;
 
 public interface IUserDialog
 {
-    bool CanEdit(Note note);
+    bool CanNoteEdit(Note note);
+    bool CanCategoryEdit(Category category);
 }

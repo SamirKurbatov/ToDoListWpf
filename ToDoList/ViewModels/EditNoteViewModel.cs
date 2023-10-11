@@ -13,7 +13,7 @@ using ToDoList.Infrastructure;
 
 namespace ToDoList;
 
-public class EditViewModel : ViewModel
+public class EditNoteViewModel : ViewModel
 {
     public event EventHandler<EventArgs<bool>> Complete;
 
@@ -82,10 +82,10 @@ public class EditViewModel : ViewModel
     #region Constructors
 
 
-    public EditViewModel()
+    public EditNoteViewModel()
         : this(new Note(), Enumerable.Empty<Category>(), Enumerable.Empty<string>()) { }
 
-    public EditViewModel(Note note, IEnumerable<Category> categories, IEnumerable<string> priorityItems)
+    public EditNoteViewModel(Note note, IEnumerable<Category> categories, IEnumerable<string> priorityItems)
     {
         this.note = note;
         Categories = categories;

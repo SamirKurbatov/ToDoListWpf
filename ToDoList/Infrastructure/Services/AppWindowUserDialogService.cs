@@ -27,9 +27,22 @@ namespace ToDoList.Infrastructure.Services
             };
         }
 
-        public bool CanEdit(Note model)
+        public bool CanCategoryEdit(Category category)
         {
-            var viewModel = new EditViewModel(model, categoryRepo.Items, priorities);
+            var viewModel = new EditGroupViewModel(category, categoryRepo.Items);
+            var view = new EditGroupNoteWindow { DataContext = viewModel };
+
+            viewModel.ClosedDialog += (s, e) =>
+            {
+                view.DialogResult = e.Arg;
+                view.Close();
+            };
+            return view.ShowDialog() ?? false;
+        }
+
+        public bool CanNoteEdit(Note model)
+        {
+            var viewModel = new EditNoteViewModel(model, categoryRepo.Items, priorities);
             var view = new EditNoteWindow { DataContext = viewModel };
 
             viewModel.Complete += (s, e) =>

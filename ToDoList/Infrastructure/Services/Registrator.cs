@@ -10,6 +10,8 @@ namespace ToDoList.Infrastructure.Services
             => services.AddTransient<IUserDialog, AppWindowUserDialogService>()
             .AddScoped<IRepository<Note>, NotesRepository>()
             .AddScoped<IRepository<Category>, CategoriesRepository>()
-            .AddScoped<INotesManager, NotesManager>();
+            .AddScoped<INotesManager, NotesManager>()
+            .AddScoped<ICategoryManager, CategoryManager>();
+
     }
 }

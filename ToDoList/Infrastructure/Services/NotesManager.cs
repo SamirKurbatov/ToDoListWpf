@@ -41,19 +41,12 @@ namespace ToDoList.Infrastructure.Services
                 : CategoriesRepo.Add(new Category { Name = name });
         }
 
-        public Note ChangeCategory(Note note, string categoryName)
+        public Note ChangeNote(Note note, string categoryName, string priority)
         {
             var category = AddCategory(categoryName);
             note.Category = category;
             note.CategoryId = category.Id;
-
-            return NotesRepo.Update(note);
-        }
-
-
-        public Note ChangePriority(Note note, string priority)
-        {
-            note.Priority = priority.ToString();
+            note.Priority = priority;
 
             return NotesRepo.Update(note);
         }

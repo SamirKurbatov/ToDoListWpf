@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using ToDoList.Commands;
 using ToDoList.Data;
@@ -16,10 +17,13 @@ public class MainViewModel : ViewModel
 
     private INotesManager notesManager;
 
-    public MainViewModel(IUserDialog userDialog, INotesManager notesManager)
+    private ICategoryManager categoryManager;
+
+    public MainViewModel(IUserDialog userDialog, INotesManager notesManager, ICategoryManager categoryManager)
     {
         this.userDialog = userDialog;
         this.notesManager = notesManager;
+        this.categoryManager = categoryManager;
     }
 
     #region Properties
@@ -84,17 +88,41 @@ public class MainViewModel : ViewModel
 
     public void OnEdit(object p)
     {
-
         var note = p as Note ?? new Note();
-        if (!userDialog.CanEdit(note)) return;
+        if (!userDialog.CanNoteEdit(note)) return;
 
         if (p is null)
         {
             notesManager.NotesRepo.Add(note);
+            SelectedCategory.Notes.Add(note);
+            MessageBox.Show("Задача добавлена!");
         }
         else
         {
             notesManager.NotesRepo.Update(note);
+        }
+    }
+
+    private ICommand removeCategoryCommand;
+    public ICommand RemoveCategoryCommand
+        => removeCategoryCommand ??= new LambdaCommand(g => categoryManager.Remove((Category)g), _ => Categories.Count > 0);
+
+    private ICommand editCategoryCommand;
+    public ICommand EditCategoryCommand
+        => editCategoryCommand ??= new LambdaCommand(OnEditCategory);
+
+    public void OnEditCategory(object g)
+    {
+        var category = g as Category ?? new Category();
+        if (!userDialog.CanCategoryEdit(category)) return;
+
+        if (g is null)
+        {
+            categoryManager.CategoriesRepo.Add(category);
+        }
+        else
+        {
+            categoryManager.CategoriesRepo.Update(category);
         }
     }
 

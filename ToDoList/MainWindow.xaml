@@ -67,6 +67,11 @@
                 <TextBlock
                     Style="{DynamicResource textBlockTheme}"
                     FontSize="16" 
+                    Text="{Binding Path=Id, StringFormat=Id: {0}}"
+                    TextWrapping="Wrap"/>
+                <TextBlock
+                    Style="{DynamicResource textBlockTheme}"
+                    FontSize="16" 
                     Text="{Binding Path=Name, StringFormat=Название: {0}}"
                     TextWrapping="Wrap"/>
                 <TextBlock 
@@ -97,12 +102,15 @@
                         <UniformGrid DockPanel.Dock="Bottom" Rows="1" 
                                      HorizontalAlignment="Center">
                             <Button Style="{DynamicResource MaterialDesignRaisedSecondaryButton}" 
-                                    Content="+"/>
+                                    Content="+"
+                                    Command="{Binding EditCategoryCommand}"/>
                             <Button Style="{DynamicResource MaterialDesignRaisedSecondaryButton}" 
                                     Content="E" 
-                                    Margin="5 0"/>
+                                    Margin="5 0"
+                                    Command="{Binding EditCategoryCommand}" CommandParameter="{Binding SelectedCategory}"/>
                             <Button Style="{DynamicResource MaterialDesignRaisedSecondaryButton}" 
                                     Content="-"/>
+
                         </UniformGrid>
                         <Label 
                             DockPanel.Dock="Top"
