@@ -108,7 +108,9 @@
                                     Content="E" 
                                     Margin="5 0"
                                     Command="{Binding EditCategoryCommand}" CommandParameter="{Binding SelectedCategory}"/>
-                            <Button Style="{DynamicResource MaterialDesignRaisedSecondaryButton}" 
+                            <Button Style="{DynamicResource MaterialDesignRaisedSecondaryButton}"
+                                    Command="{Binding RemoveCategoryCommand}"
+                                    CommandParameter="{Binding SelectedCategory}"
                                     Content="-"/>
 
                         </UniformGrid>

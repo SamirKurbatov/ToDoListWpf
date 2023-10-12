@@ -105,7 +105,7 @@ public class MainViewModel : ViewModel
 
     private ICommand removeCategoryCommand;
     public ICommand RemoveCategoryCommand
-        => removeCategoryCommand ??= new LambdaCommand(g => categoryManager.Remove((Category)g), _ => Categories.Count > 0);
+        => removeCategoryCommand ??= new LambdaCommand(g => categoryManager.Remove((Category)g), g => g is Category);
 
     private ICommand editCategoryCommand;
     public ICommand EditCategoryCommand
