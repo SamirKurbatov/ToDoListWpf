@@ -8,3 +8,4 @@ namespace ToDoList.Data.Entities
         public ICollection<Note> Notes { get; set; }
     }
 }
+

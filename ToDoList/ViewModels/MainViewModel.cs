@@ -94,8 +94,6 @@ public class MainViewModel : ViewModel
         if (p is null)
         {
             notesManager.NotesRepo.Add(note);
-            SelectedCategory.Notes.Add(note);
-            MessageBox.Show("Задача добавлена!");
         }
         else
         {
@@ -109,7 +107,7 @@ public class MainViewModel : ViewModel
 
     private ICommand editCategoryCommand;
     public ICommand EditCategoryCommand
-        => editCategoryCommand ??= new LambdaCommand(OnEditCategory);
+        => editCategoryCommand ??= new LambdaCommand(OnEditCategory, _ => SelectedCategory !=null);
 
     public void OnEditCategory(object g)
     {
@@ -125,28 +123,6 @@ public class MainViewModel : ViewModel
             categoryManager.CategoriesRepo.Update(category);
         }
     }
-
-
-    //[RelayCommand]
-    //public void OrderByPriority()
-    //{
-    //    var filtedNotes = Notes.OrderBy(x => x, new PriorityComparer());
-    //    Notes = new ObservableCollection<Note>(filtedNotes);
-    //}
-
-    //[RelayCommand]
-    //public void OrderByDate()
-    //{
-    //    var filtedNotes = Notes.OrderByDescending(x => x.Date);
-    //    Notes = new ObservableCollection<Note>(filtedNotes);
-    //}
-
-    //[RelayCommand]
-    //public void OrderByTitle()
-    //{
-    //    var filtredNotes = Notes.OrderBy(x => x.Title);
-    //    Notes = new ObservableCollection<Note>(filtredNotes);
-    //}
     #endregion
 }
 

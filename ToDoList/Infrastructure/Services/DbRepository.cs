@@ -74,12 +74,20 @@ namespace ToDoList.Infrastructure.Services
 
         public T Update(T item)
         {
-            database.Entry(item).State = EntityState.Modified;
-            if (AutoSaveChanges)
+            try
             {
-                database.SaveChanges();
+                database.Entry(item).State = EntityState.Modified;
+                if (AutoSaveChanges)
+                {
+                    database.SaveChanges();
+                }
+                return item;
             }
-            return item;
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка при редактировании записи!", ex.Message);
+                throw;
+            }
         }
 
         public void Dispose() => Dispose(true);
